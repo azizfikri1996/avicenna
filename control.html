@@ -528,7 +528,8 @@
 <script>
   // Data bookings - Using PHP & MySQL
   let bookings = [];
-  const API_URL = 'api.php';
+  // API URL untuk production - sesuaikan dengan lokasi file di server
+  const API_URL = '/Avicenna/api.php';
 
   // Load bookings from MySQL via PHP API
   async function loadBookings(){

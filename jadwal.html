@@ -560,7 +560,7 @@
 
     try {
       for (const tanggal of dates) {
-        const response = await fetch('api.php?action=addBooking', {
+        const response = await fetch('/Avicenna/api.php?action=addBooking', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({
@@ -600,7 +600,7 @@
 
   async function isTimeSlotBooked(studio, tanggal, jam) {
     try {
-      const response = await fetch(`api.php?action=checkSlot&studio=${encodeURIComponent(studio)}&tanggal=${tanggal}&jam=${encodeURIComponent(jam)}`);
+      const response = await fetch(`/Avicenna/api.php?action=checkSlot&studio=${encodeURIComponent(studio)}&tanggal=${tanggal}&jam=${encodeURIComponent(jam)}`);
       const data = await response.json();
       return data.booked;
     } catch (error) {
@@ -612,7 +612,7 @@
   async function checkBan(nik) {
     if (!nik) return { banned: false };
     try {
-      const response = await fetch(`api.php?action=checkBan&nik=${encodeURIComponent(nik)}`);
+      const response = await fetch(`/Avicenna/api.php?action=checkBan&nik=${encodeURIComponent(nik)}`);
       const data = await response.json();
       return data;
     } catch (error) {

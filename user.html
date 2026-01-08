@@ -338,7 +338,8 @@ body{
 <script>
 const studios=['Studio 1','Studio 2','Studio 3','Studio 4','Studio 5','Studio 6','Studio 7'];
 let cachedBookings = [];
-const API_URL = 'api.php';
+// API URL untuk production - sesuaikan dengan lokasi file di server
+const API_URL = '/Avicenna/api.php';
 
 function formatTime(d){
   return d.toLocaleTimeString('id-ID',{hour:'2-digit',minute:'2-digit',second:'2-digit'});
