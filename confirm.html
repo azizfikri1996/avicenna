@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Booking Confirmation</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&family=Playfair+Display:wght@700&display=swap" rel="stylesheet">
+
+  <style>
+    * { margin:0; padding:0; box-sizing:border-box; }
+
+    body {
+      font-family: 'Poppins', sans-serif;
+      background: linear-gradient(135deg, rgba(161,177,158,.9), rgba(192,192,192,.9)),
+        url('./image/bg.jpeg') center/cover fixed;
+      background-blend-mode: overlay;
+      min-height: 100vh;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      padding:30px 20px;
+    }
+
+    .container { max-width:1000px; width:100%; }
+
+    .card {
+      background:#fff;
+      border-radius:20px;
+      padding:40px 25px;
+      text-align:center;
+      box-shadow:0 20px 60px rgba(0,0,0,.3);
+      animation:slideUp .6s ease;
+    }
+
+    @keyframes slideUp {
+      from { opacity:0; transform:translateY(30px); }
+      to { opacity:1; transform:translateY(0); }
+    }
+
+    .success-icon {
+      width:70px;
+      height:70px;
+      border-radius:50%;
+      margin:0 auto 20px;
+      background:linear-gradient(135deg,#667eea,#764ba2);
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      color:#fff;
+      font-size:38px;
+      box-shadow:0 8px 25px rgba(102,126,234,.3);
+    }
+
+    h1 {
+      font-family:'Playfair Display', serif;
+      font-size:32px;
+      margin-bottom:10px;
+      color:#333;
+    }
+
+    p { font-size:14px; color:#666; line-height:1.6; }
+
+    .details-box {
+      background:#f8f8f8;
+      border-radius:15px;
+      padding:20px;
+      margin:25px 0;
+      text-align:left;
+    }
+
+    .detail-item {
+      display:grid;
+      grid-template-columns:1fr 1fr;
+      padding:12px 0;
+      border-bottom:1px solid #e0e0e0;
+    }
+
+    .detail-item:last-child { border-bottom:none; }
+
+    .detail-label {
+      font-size:12px;
+      font-weight:600;
+      color:#777;
+      text-transform:uppercase;
+    }
+
+    .detail-value {
+      font-size:14px;
+      font-weight:700;
+      color:#333;
+      text-align:right;
+    }
+
+    .info-section {
+      background:#fff3cd;
+      border-left:4px solid #ffc107;
+      padding:15px;
+      border-radius:8px;
+      text-align:left;
+    }
+
+    .info-section h3 {
+      font-size:14px;
+      color:#856404;
+      margin-bottom:6px;
+    }
+
+    .info-section p {
+      font-size:13px;
+      color:#856404;
+    }
+
+    .button-group {
+      margin-top:25px;
+      display:grid;
+      gap:10px;
+    }
+
+    button {
+      padding:14px;
+      border:none;
+      border-radius:12px;
+      font-size:13px;
+      font-weight:600;
+      cursor:pointer;
+      transition:.3s;
+    }
+
+    .btn-whatsapp {
+      background:linear-gradient(135deg,#25d366,#128c7e);
+      color:#fff;
+      box-shadow:0 6px 25px rgba(37,211,102,.35);
+    }
+
+    .btn-confirm {
+      background:linear-gradient(135deg,#27ae60,#1e8449);
+      color:#fff;
+      box-shadow:0 6px 25px rgba(39,174,96,.35);
+    }
+
+    .btn-home {
+      background:#f0f0f0;
+      border:2px solid #e0e0e0;
+      color:#333;
+    }
+
+    button:hover { transform:translateY(-2px); }
+
+    .divider {
+      height:1px;
+      background:#e0e0e0;
+      margin:20px 0;
+    }
+
+    .footer-text {
+      font-size:12px;
+      color:#999;
+    }
+
+    @media(max-width:480px){
+      .detail-item { grid-template-columns:1fr; }
+      .detail-value { text-align:left; }
+    }
+  </style>
+</head>
+
+<body>
+
+<div class="container">
+  <div class="card">
+
+    <div class="success-icon">✓</div>
+
+    <h1>Thank You!</h1>
+    <p>Your registration has been successfully saved.<br>
+       Please confirm with the Studio PIC.</p>
+
+    <div class="details-box">
+      <div class="detail-item"><span class="detail-label">Studio</span><span class="detail-value" id="studio">-</span></div>
+      <div class="detail-item"><span class="detail-label">Name</span><span class="detail-value" id="nama">-</span></div>
+      <div class="detail-item"><span class="detail-label">ID Number</span><span class="detail-value" id="nik">-</span></div>
+      <div class="detail-item"><span class="detail-label">Class</span><span class="detail-value" id="kelas">-</span></div>
+      <div class="detail-item"><span class="detail-label">Start Date</span><span class="detail-value" id="tanggalMulai">-</span></div>
+      <div class="detail-item"><span class="detail-label">End Date</span><span class="detail-value" id="tanggalSelesai">-</span></div>
+      <div class="detail-item"><span class="detail-label">Time</span><span class="detail-value" id="jam">-</span></div>
+    </div>
+
+    <div class="info-section">
+      <h3>📋 Next Steps</h3>
+      <p>Click the button below to contact the Studio PIC via WhatsApp for confirmation</p>
+    </div>
+
+    <div class="button-group">
+      <button class="btn-whatsapp" onclick="contactPIC()">💬 Contact PIC WhatsApp</button>
+      <button class="btn-home" onclick="goHome()">🏠 Back to Home</button>
+    </div>
+
+    <div class="divider"></div>
+    <p class="footer-text">Thank you for choosing Alazka Studio.</p>
+
+  </div>
+</div>
+
+<script>
+  const params = new URLSearchParams(window.location.search);
+  const studio = params.get('studio') || '-';
+  const tanggalMulai = params.get('tanggalMulai') || '-';
+  const tanggalSelesai = params.get('tanggalSelesai') || '-';
+  const jam = params.get('jam') || '-';
+  const nama = params.get('nama') || '-';
+  const nik = params.get('nik') || '-';
+  const kelas = params.get('kelas') || '-';
+
+  document.getElementById('studio').innerText = studio;
+  document.getElementById('nama').innerText = nama;
+  document.getElementById('nik').innerText = nik;
+  document.getElementById('kelas').innerText = kelas;
+  document.getElementById('tanggalMulai').innerText = formatTanggal(tanggalMulai);
+  document.getElementById('tanggalSelesai').innerText = formatTanggal(tanggalSelesai);
+  document.getElementById('jam').innerText = jam;
+
+  function formatTanggal(dateString) {
+    if (!dateString || dateString === '-') return '-';
+    return new Date(dateString + 'T00:00:00')
+      .toLocaleDateString('id-ID', { weekday:'long', day:'numeric', month:'long', year:'numeric' });
+  }
+
+  function contactPIC(){
+    const phone = '6282125039377';
+    const msg = `Hello, I would like to book a studio:
+
+Name: ${nama}
+ID Number: ${nik}
+Class: ${kelas}
+Studio: ${studio}
+Date: ${formatTanggal(tanggalMulai)} - ${formatTanggal(tanggalSelesai)}
+Time: ${jam}`;
+    window.open(`https://wa.me/${phone}?text=${encodeURIComponent(msg)}`, '_blank');
+  }
+
+  function goHome(){
+    window.location.href = 'index.html';
+  }
+</script>
+
+</body>
+</html>

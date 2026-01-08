@@ -1,0 +1,974 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Control Panel - Alazka Studio</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&display=swap" rel="stylesheet">
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Poppins', sans-serif;
+      background: linear-gradient(135deg, rgba(161, 177, 158, 0.9) 0%, rgba(192, 192, 192, 0.9) 100%), url('./image/bg.jpeg') center/cover fixed;
+      background-blend-mode: overlay;
+      min-height: 100vh;
+      padding: 20px;
+    }
+
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+
+    .header {
+      background: white;
+      border-radius: 20px;
+      padding: 40px;
+      margin-bottom: 30px;
+      box-shadow: 0 10px 40px rgba(0, 0, 0, 0.1);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 20px;
+    }
+    
+    .header h1 {
+      font-family: 'Playfair Display', serif;
+      font-size: 36px;
+      color: #333;
+    }
+
+    .header-actions {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+
+    button {
+      padding: 14px 28px;
+      border: none;
+      border-radius: 12px;
+      font-family: 'Poppins', sans-serif;
+      font-size: 14px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      letter-spacing: 0.5px;
+    }
+
+    .btn-add {
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      color: white;
+      box-shadow: 0 6px 25px rgba(102, 126, 234, 0.35);
+    }
+
+    .btn-add:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 10px 35px rgba(102, 126, 234, 0.5);
+    }
+
+    .btn-export {
+      background: #f0f0f0;
+      color: #333;
+      border: 2px solid #e0e0e0;
+    }
+
+    .btn-export:hover {
+      background: #e0e0e0;
+    }
+
+    .stats-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 20px;
+      margin-bottom: 30px;
+    }
+
+    .stat-card {
+      background: white;
+      padding: 25px;
+      border-radius: 15px;
+      box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
+      text-align: center;
+      animation: slideUp 0.6s ease;
+    }
+
+    @keyframes slideUp {
+      from {
+        opacity: 0;
+        transform: translateY(20px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    .stat-card h3 {
+      color: #666;
+      font-size: 14px;
+      font-weight: 600;
+      margin-bottom: 10px;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+
+    .stat-card .number {
+      font-size: 36px;
+      font-weight: 700;
+      color: #667eea;
+    }
+
+    .table-container {
+      background: white;
+      border-radius: 20px;
+      overflow: hidden;
+      box-shadow: 0 10px 40px rgba(0, 0, 0, 0.1);
+      animation: slideUp 0.8s ease;
+    }
+
+    .table-header {
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      color: white;
+      padding: 20px 30px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .table-header h2 {
+      font-size: 20px;
+      font-weight: 700;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+    }
+
+    th {
+      background: #f8f8f8;
+      padding: 18px 20px;
+      text-align: left;
+      font-weight: 600;
+      color: #333;
+      border-bottom: 2px solid #e0e0e0;
+      font-size: 13px;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+
+    td {
+      padding: 16px 20px;
+      border-bottom: 1px solid #f0f0f0;
+      color: #666;
+      font-size: 14px;
+    }
+
+    tr:last-child td {
+      border-bottom: none;
+    }
+
+    tr:hover {
+      background: #f8f8f8;
+    }
+
+    .status {
+      display: inline-block;
+      padding: 6px 12px;
+      border-radius: 20px;
+      font-size: 12px;
+      font-weight: 600;
+    }
+
+    .status.pending {
+      background: #ffeaa7;
+      color: #d63031;
+    }
+
+    .status.confirmed {
+      background: #a8e6cf;
+      color: #27ae60;
+    }
+
+    .status.completed {
+      background: #95e1d3;
+      color: #0984e3;
+    }
+
+    .status.cancelled {
+      background: #fab1a0;
+      color: #d63031;
+    }
+
+    .action-buttons {
+      display: flex;
+      gap: 8px;
+    }
+
+    .btn-edit, .btn-delete, .btn-confirm {
+      padding: 8px 12px;
+      border: none;
+      border-radius: 8px;
+      font-size: 12px;
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+
+    .btn-edit {
+      background: #e3f2fd;
+      color: #0984e3;
+    }
+
+    .btn-edit:hover {
+      background: #0984e3;
+      color: white;
+    }
+
+    .btn-confirm {
+      background: #c8e6c9;
+      color: #27ae60;
+    }
+
+    .btn-confirm:hover {
+      background: #27ae60;
+      color: white;
+    }
+
+    .btn-delete {
+      background: #ffcdd2;
+      color: #d63031;
+    }
+
+    .btn-delete:hover {
+      background: #d63031;
+      color: white;
+    }
+
+    .empty-state {
+      text-align: center;
+      padding: 60px 40px;
+      color: #999;
+    }
+
+    .empty-state svg {
+      width: 80px;
+      height: 80px;
+      margin-bottom: 20px;
+      opacity: 0.3;
+    }
+
+    .empty-state h3 {
+      font-size: 18px;
+      color: #666;
+      margin-bottom: 10px;
+    }
+
+    .modal {
+      display: none;
+      position: fixed;
+      z-index: 1000;
+      left: 0;
+      top: 0;
+      width: 100%;
+      height: 100%;
+      background-color: rgba(0, 0, 0, 0.5);
+      animation: fadeIn 0.3s ease;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
+
+    .modal-content {
+      background: white;
+      margin: 5% auto;
+      padding: 40px;
+      border-radius: 20px;
+      width: 90%;
+      max-width: 500px;
+      box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+    }
+
+    .modal-header {
+      font-family: 'Playfair Display', serif;
+      font-size: 28px;
+      color: #333;
+      margin-bottom: 25px;
+    }
+
+    .form-group {
+      margin-bottom: 20px;
+    }
+
+    .form-group label {
+      display: block;
+      color: #333;
+      font-size: 14px;
+      font-weight: 600;
+      margin-bottom: 8px;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+
+    .form-group input,
+    .form-group select {
+      width: 100%;
+      padding: 12px;
+      border: 2px solid #e0e0e0;
+      border-radius: 8px;
+      font-family: 'Poppins', sans-serif;
+      font-size: 14px;
+    }
+
+    .form-group input:focus,
+    .form-group select:focus {
+      outline: none;
+      border-color: #667eea;
+      box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+    }
+
+    .modal-buttons {
+      display: flex;
+      gap: 10px;
+      margin-top: 30px;
+    }
+
+    .close {
+      color: #aaa;
+      float: right;
+      font-size: 28px;
+      font-weight: bold;
+      cursor: pointer;
+    }
+
+    .close:hover {
+      color: #000;
+    }
+  </style>
+</head>
+<body>
+
+<div class="container">
+  <div class="header">
+    <div>
+      <h1>📊 Control Panel</h1>
+      <p style="color: #666; margin-top: 5px;">Manage Alazka studio bookings</p>
+    </div>
+    <div class="header-actions">
+      <button class="btn-add" onclick="openAddModal()">+ Add Booking</button>
+      <button class="btn-export" onclick="exportData()">📥 Export Data</button>
+    </div>
+  </div>
+
+  <div class="stats-grid">
+    <div class="stat-card">
+      <h3>Total Bookings</h3>
+      <div class="number" id="totalBookings">0</div>
+    </div>
+    <div class="stat-card">
+      <h3>Pending Confirmation</h3>
+      <div class="number" id="pendingBookings" style="color: #f39c12;">0</div>
+    </div>
+    <div class="stat-card">
+      <h3>Confirmed</h3>
+      <div class="number" id="confirmedBookings" style="color: #27ae60;">0</div>
+    </div>
+  </div>
+
+  <!-- Date Range Filter -->
+  <div style="background: white; border-radius: 15px; padding: 20px; margin-bottom: 30px; box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);">
+    <h3 style="font-size: 16px; font-weight: 600; margin-bottom: 15px; color: #333;">📅 Date Range & Status Filter</h3>
+    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 15px; align-items: end;">
+      <div>
+        <label style="display: block; font-size: 13px; font-weight: 600; margin-bottom: 8px; color: #666; text-transform: uppercase;">From Date</label>
+        <input type="date" id="startDateFilter" style="width: 100%; padding: 10px; border: 2px solid #e0e0e0; border-radius: 8px; font-size: 14px;">
+      </div>
+      <div>
+        <label style="display: block; font-size: 13px; font-weight: 600; margin-bottom: 8px; color: #666; text-transform: uppercase;">To Date</label>
+        <input type="date" id="endDateFilter" style="width: 100%; padding: 10px; border: 2px solid #e0e0e0; border-radius: 8px; font-size: 14px;">
+      </div>
+      <div>
+        <label style="display: block; font-size: 13px; font-weight: 600; margin-bottom: 8px; color: #666; text-transform: uppercase;">Status</label>
+        <select id="statusFilterInput" style="width: 100%; padding: 10px; border: 2px solid #e0e0e0; border-radius: 8px; font-size: 14px;">
+          <option value="">-- All Status --</option>
+          <option value="pending">Pending</option>
+          <option value="confirmed">Confirmed</option>
+          <option value="completed">Completed</option>
+          <option value="cancelled">Cancelled</option>
+        </select>
+      </div>
+      <button onclick="applyDateFilter()" style="padding: 10px 20px; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; border: none; border-radius: 8px; cursor: pointer; font-weight: 600;">🔍 Filter</button>
+      <button onclick="clearDateFilter()" style="padding: 10px 20px; background: #f0f0f0; color: #333; border: 2px solid #e0e0e0; border-radius: 8px; cursor: pointer; font-weight: 600;">✕ Reset</button>
+    </div>
+    <div id="dateFilterInfo" style="margin-top: 12px; font-size: 13px; color: #667eea; font-weight: 500;"></div>
+  </div>
+
+  <div class="table-container">
+    <div class="table-header">
+      <h2>Studio Bookings</h2>
+    </div>
+    <table>
+      <thead>
+        <tr>
+          <th>No</th>
+          <th>Studio</th>
+          <th>Name</th>
+          <th>NIK</th>
+          <th>Class</th>
+          <th>Date</th>
+          <th>Time</th>
+          <th>Status</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody id="tableBody">
+        <tr>
+          <td colspan="9" class="empty-state">
+            <h3>No bookings yet</h3>
+            <p>Click "Add Booking" to add new data</p>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<!-- Modal untuk Tambah/Edit -->
+<div id="addModal" class="modal">
+  <div class="modal-content">
+    <span class="close" onclick="closeModal()">&times;</span>
+    <div class="modal-header">Add Booking</div>
+    
+    <form id="bookingForm">
+      <div class="form-group">
+        <label>Studio</label>
+        <select id="studioInput" required>
+          <option value="">-- Select Studio --</option>
+          <option value="Studio 1">Studio 1</option>
+          <option value="Studio 2">Studio 2</option>
+          <option value="Studio 3">Studio 3</option>
+          <option value="Studio 4">Studio 4</option>
+          <option value="Studio 5">Studio 5</option>
+          <option value="Studio 6">Studio 6</option>
+          <option value="Studio 7">Studio 7</option>
+        </select>
+      </div>
+
+      <div class="form-group">
+        <label>Date</label>
+        <input type="date" id="tanggalInput" required>
+      </div>
+
+      <div class="form-group">
+        <label>Time</label>
+        <select id="jamInput" required>
+          <option value="">-- Select Time --</option>
+          <option value="09:00-10:00">09:00 - 10:00</option>
+          <option value="10:00-11:00">10:00 - 11:00</option>
+          <option value="11:00-12:00">11:00 - 12:00</option>
+          <option value="12:00-13:00">12:00 - 13:00</option>
+          <option value="13:00-14:00">13:00 - 14:00</option>
+          <option value="14:00-15:00">14:00 - 15:00</option>
+          <option value="15:00-16:00">15:00 - 16:00</option>
+          <option value="16:00-17:00">16:00 - 17:00</option>
+          <option value="17:00-18:00">17:00 - 18:00</option>
+        </select>
+      </div>
+
+      <div class="form-group">
+        <label>Registrant Name</label>
+        <input type="text" id="namaInput" placeholder="Registrant name" required style="width:100%; padding:10px; border:2px solid #e0e0e0; border-radius:8px;">
+      </div>
+
+      <div class="form-group">
+        <label>NIK</label>
+        <input type="text" id="nikInput" placeholder="ID number" required style="width:100%; padding:10px; border:2px solid #e0e0e0; border-radius:8px;">
+      </div>
+
+      <div class="form-group">
+        <label>Class Registration</label>
+        <select id="kelasInput" style="width:100%; padding:10px; border:2px solid #e0e0e0; border-radius:8px;">
+          <option value="">-- Select Class (optional) --</option>
+          <option value="Kelas A">Class A</option>
+          <option value="Kelas B">Class B</option>
+          <option value="Kelas C">Class C</option>
+          <option value="Umum">General</option>
+        </select>
+      </div>
+
+      <div class="form-group">
+        <label>Status</label>
+        <select id="statusInput" required>
+          <option value="pending">Pending Confirmation</option>
+          <option value="confirmed">Confirmed</option>
+          <option value="completed">Completed</option>
+          <option value="cancelled">Cancelled</option>
+        </select>
+      </div>
+
+      <div class="modal-buttons">
+        <button type="button" class="btn-export" onclick="closeModal()" style="flex: 1;">Cancel</button>
+        <button type="submit" class="btn-add" style="flex: 1;">Save</button>
+      </div>
+    </form>
+  </div>
+</div>
+
+<script>
+  // Data bookings - Using PHP & MySQL
+  let bookings = [];
+  const API_URL = 'api.php';
+
+  // Load bookings from MySQL via PHP API
+  async function loadBookings(){
+    try {
+      const response = await fetch(`${API_URL}?action=getBookings`);
+      const data = await response.json();
+      
+      if (data.error) {
+        console.error('Error loading bookings:', data.error);
+        bookings = [];
+      } else {
+        bookings = data;
+        console.log('Bookings loaded from MySQL:', bookings.length, 'items');
+      }
+      
+      renderTable();
+      updateStats();
+    } catch (error) {
+      console.error('Error loading from MySQL:', error);
+      bookings = [];
+    }
+  }
+
+  // No longer needed - data saved directly to MySQL
+  function saveBookings(){
+    // This function is now handled by individual API calls
+    console.log('Data saved to MySQL');
+  }
+
+  let editingId = null;
+
+  async function loadBanList(){
+    try {
+      const response = await fetch(`${API_URL}?action=getBanList`);
+      const data = await response.json();
+      
+      if (data.error) {
+        console.error('Error loading ban list:', data.error);
+        return [];
+      }
+      return data;
+    } catch (error) {
+      console.error('Error loading ban list:', error);
+      return [];
+    }
+  }
+
+  async function saveBanList(nik, nama, reason){
+    try {
+      const bannedUntil = new Date();
+      bannedUntil.setMonth(bannedUntil.getMonth() + 1);
+      
+      const response = await fetch(`${API_URL}?action=addBan`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          nik,
+          nama,
+          reason: reason || 'Cancelled 3 times',
+          bannedUntil: bannedUntil.toISOString().split('T')[0] + ' 23:59:59'
+        })
+      });
+      
+      const result = await response.json();
+      if (result.error) {
+        console.error('Error saving ban:', result.error);
+      } else {
+        console.log('User banned successfully');
+      }
+    } catch (error) {
+      console.error('Error saving ban to MySQL:', error);
+    }
+  }
+
+  async function handleCancellation(booking){
+    if(!booking || !booking.nik) return;
+    
+    // Count cancellations for this NIK
+    const cancelledCount = bookings.filter(b => 
+      b.nik === booking.nik && b.status === 'cancelled'
+    ).length;
+    
+    if(cancelledCount >= 3){
+      await saveBanList(booking.nik, booking.nama, 'Cancelled 3 times');
+    }
+  }
+
+  function renderTable() {
+    const tbody = document.getElementById('tableBody');
+    
+    if (bookings.length === 0) {
+      tbody.innerHTML = `
+        <tr>
+          <td colspan="9" class="empty-state">
+            <h3>No bookings yet</h3>
+            <p>Click "Add Booking" to add new data</p>
+          </td>
+        </tr>
+      `;
+      return;
+    }
+
+    tbody.innerHTML = bookings.map((booking, index) => `
+      <tr>
+        <td>${index + 1}</td>
+        <td><strong>${booking.studio}</strong></td>
+        <td>${booking.nama || '-'}</td>
+        <td>${booking.nik || '-'}</td>
+        <td>${booking.kelas || '-'}</td>
+        <td>${formatTanggal(booking.tanggal)}</td>
+        <td>${booking.jam}</td>
+        <td><span class="status ${booking.status}">${getStatusLabel(booking.status)}</span></td>
+        <td>
+          <div class="action-buttons">
+            <button class="btn-edit" onclick="editBooking(${booking.id})">Edit</button>
+            <button class="btn-confirm" onclick="confirmBooking(${booking.id})">Confirm</button>
+            <button class="btn-delete" onclick="deleteBooking(${booking.id})">Delete</button>
+          </div>
+        </td>
+      </tr>
+    `).join('');
+
+    updateStats();
+  }
+
+  function formatTanggal(dateString) {
+    const date = new Date(dateString + 'T00:00:00');
+    const options = { year: 'numeric', month: 'short', day: 'numeric' };
+    return date.toLocaleDateString('en-US', options);
+  }
+
+  function getStatusLabel(status) {
+    const labels = {
+      pending: '⏳ Pending',
+      confirmed: '✓ Confirmed',
+      completed: '✔ Completed',
+      cancelled: '✗ Cancelled'
+    };
+    return labels[status] || status;
+  }
+
+  function updateStats() {
+    document.getElementById('totalBookings').innerText = bookings.length;
+    document.getElementById('pendingBookings').innerText = bookings.filter(b => b.status === 'pending').length;
+    document.getElementById('confirmedBookings').innerText = bookings.filter(b => b.status === 'confirmed').length;
+    
+    const elRevenue = document.getElementById('totalRevenue');
+    if (elRevenue) elRevenue.innerText = '-';
+  }
+
+  // Filter Per Tanggal
+  let filteredBookings = [...bookings];
+  let currentDateFilter = '';
+
+  function applyDateFilter() {
+    const startDate = document.getElementById('startDateFilter').value;
+    const endDate = document.getElementById('endDateFilter').value;
+    const statusFilter = document.getElementById('statusFilterInput').value;
+
+    if (!startDate || !endDate) {
+      alert('Please select start and end dates');
+      return;
+    }
+
+    if (startDate > endDate) {
+      alert('Start date must be earlier than or equal to end date');
+      return;
+    }
+
+    currentDateFilter = { start: startDate, end: endDate, status: statusFilter };
+
+    filteredBookings = bookings.filter(booking => {
+      const dateMatch = booking.tanggal >= startDate && booking.tanggal <= endDate;
+      const statusMatch = !statusFilter || booking.status === statusFilter;
+      return dateMatch && statusMatch;
+    });
+
+    // Format tanggal untuk tampilan
+    const startDateObj = new Date(startDate + 'T00:00:00');
+    const endDateObj = new Date(endDate + 'T00:00:00');
+    const options = { year: 'numeric', month: 'short', day: 'numeric' };
+    const formattedStart = startDateObj.toLocaleDateString('en-US', options);
+    const formattedEnd = endDateObj.toLocaleDateString('en-US', options);
+
+    let filterInfo = `📌 Showing ${filteredBookings.length} bookings from ${formattedStart} to ${formattedEnd}`;
+    if (statusFilter) {
+      filterInfo += ` | Status: ${statusFilter}`;
+    }
+
+    document.getElementById('dateFilterInfo').innerText = filterInfo;
+
+    renderFilteredTable();
+  }
+
+  function clearDateFilter() {
+    document.getElementById('startDateFilter').value = '';
+    document.getElementById('endDateFilter').value = '';
+    document.getElementById('statusFilterInput').value = '';
+    document.getElementById('dateFilterInfo').innerText = '';
+    filteredBookings = [...bookings];
+    currentDateFilter = '';
+    renderTable();
+  }
+
+  function renderFilteredTable() {
+    const tbody = document.getElementById('tableBody');
+    
+    if (filteredBookings.length === 0) {
+      tbody.innerHTML = `
+        <tr>
+          <td colspan="9" class="empty-state">
+            <h3>No bookings</h3>
+            <p>No booking data for the selected dates</p>
+          </td>
+        </tr>
+      `;
+      updateFilteredStats();
+      return;
+    }
+
+    tbody.innerHTML = filteredBookings.map((booking, index) => `
+      <tr>
+        <td>${index + 1}</td>
+        <td><strong>${booking.studio}</strong></td>
+        <td>${booking.nama || '-'}</td>
+        <td>${booking.nik || '-'}</td>
+        <td>${booking.kelas || '-'}</td>
+        <td>${formatTanggal(booking.tanggal)}</td>
+        <td>${booking.jam}</td>
+        <td><span class="status ${booking.status}">${getStatusLabel(booking.status)}</span></td>
+        <td>
+          <div class="action-buttons">
+            <button class="btn-edit" onclick="editBooking(${booking.id})">Edit</button>
+            <button class="btn-confirm" onclick="confirmBooking(${booking.id})">Confirm</button>
+            <button class="btn-delete" onclick="deleteBooking(${booking.id})">Delete</button>
+          </div>
+        </td>
+      </tr>
+    `).join('');
+
+    updateFilteredStats();
+  }
+
+  function updateFilteredStats() {
+    document.getElementById('totalBookings').innerText = filteredBookings.length;
+    document.getElementById('pendingBookings').innerText = filteredBookings.filter(b => b.status === 'pending').length;
+    document.getElementById('confirmedBookings').innerText = filteredBookings.filter(b => b.status === 'confirmed').length;
+  }
+
+  function openAddModal() {
+    editingId = null;
+    document.getElementById('bookingForm').reset();
+    document.querySelector('.modal-header').innerText = 'Add Booking';
+    document.getElementById('addModal').style.display = 'block';
+  }
+
+  function closeModal() {
+    document.getElementById('addModal').style.display = 'none';
+  }
+
+  function editBooking(id) {
+    const booking = bookings.find(b => b.id === id);
+    if (booking) {
+      editingId = id;
+      document.getElementById('studioInput').value = booking.studio;
+      document.getElementById('tanggalInput').value = booking.tanggal;
+      document.getElementById('jamInput').value = booking.jam;
+      document.getElementById('statusInput').value = booking.status;
+      if (document.getElementById('namaInput')) document.getElementById('namaInput').value = booking.nama || '';
+      if (document.getElementById('nikInput')) document.getElementById('nikInput').value = booking.nik || '';
+      if (document.getElementById('kelasInput')) document.getElementById('kelasInput').value = booking.kelas || '';
+      document.querySelector('.modal-header').innerText = 'Edit Booking';
+      document.getElementById('addModal').style.display = 'block';
+    }
+  }
+
+  function confirmBooking(id) {
+    const booking = bookings.find(b => b.id === id);
+    if (booking) {
+      if (booking.status === 'confirmed') {
+        alert('This booking is already confirmed');
+        return;
+      }
+      updateBookingStatus(id, 'confirmed');
+    }
+  }
+
+  async function updateBookingStatus(id, status) {
+    try {
+      const response = await fetch(`${API_URL}?action=confirmBooking`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ id, status })
+      });
+      
+      const result = await response.json();
+      if (result.success) {
+        await loadBookings(); // Reload data from MySQL
+        if (currentDateFilter) {
+          applyDateFilter();
+        }
+      } else {
+        alert('Failed to update booking: ' + (result.error || 'Unknown error'));
+      }
+    } catch (error) {
+      console.error('Error updating booking:', error);
+      alert('Failed to update booking');
+    }
+  }
+
+  async function deleteBooking(id) {
+    if (confirm('Are you sure you want to delete this booking?')) {
+      try {
+        const response = await fetch(`${API_URL}?action=deleteBooking&id=${id}`, {
+          method: 'GET'
+        });
+        
+        const result = await response.json();
+        if (result.success) {
+          await loadBookings(); // Reload data from MySQL
+          if (currentDateFilter) {
+            applyDateFilter();
+          }
+        } else {
+          alert('Failed to delete booking: ' + (result.error || 'Unknown error'));
+        }
+      } catch (error) {
+        console.error('Error deleting booking:', error);
+        alert('Failed to delete booking');
+      }
+    }
+  }
+
+  function saveData() {
+    // Data is saved automatically to MySQL via API calls
+    alert('All data is automatically saved to database');
+  }
+
+  document.getElementById('bookingForm').addEventListener('submit', async function(e) {
+    e.preventDefault();
+    
+    const studio = document.getElementById('studioInput').value;
+    const tanggal = document.getElementById('tanggalInput').value;
+    const jam = document.getElementById('jamInput').value;
+    const status = document.getElementById('statusInput').value;
+    const nama = document.getElementById('namaInput') ? document.getElementById('namaInput').value.trim() : '';
+    const nik = document.getElementById('nikInput') ? document.getElementById('nikInput').value.trim() : '';
+    const kelas = document.getElementById('kelasInput') ? document.getElementById('kelasInput').value : '';
+
+    const prevStatus = editingId ? (bookings.find(b => b.id === editingId) || {}).status : null;
+
+    try {
+      if (editingId) {
+        // Update existing booking
+        const response = await fetch(`${API_URL}?action=updateBooking`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            id: editingId,
+            studio,
+            tanggal,
+            jam,
+            status,
+            nama,
+            nik,
+            kelas
+          })
+        });
+        
+        const result = await response.json();
+        if (result.success) {
+          if (status === 'cancelled' && prevStatus !== 'cancelled') {
+            const booking = bookings.find(b => b.id === editingId);
+            if (booking) await handleCancellation(booking);
+          }
+        } else {
+          alert('Failed to update booking: ' + (result.error || 'Unknown error'));
+          return;
+        }
+      } else {
+        // Add new booking
+        const response = await fetch(`${API_URL}?action=addBooking`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            studio,
+            tanggal,
+            jam,
+            status,
+            nama,
+            hp: '',
+            nik,
+            email: '',
+            kelas
+          })
+        });
+        
+        const result = await response.json();
+        if (!result.success) {
+          alert('Failed to add booking: ' + (result.error || 'Unknown error'));
+          return;
+        }
+      }
+
+      await loadBookings(); // Reload data from MySQL
+      closeModal();
+    } catch (error) {
+      console.error('Error saving booking:', error);
+      alert('Failed to save booking');
+    }
+  });
+
+  function exportData() {
+    let csv = 'No,Studio,Nama,NIK,Kelas,Tanggal,Jam,Status\n';
+    bookings.forEach((booking, index) => {
+      csv += `${index + 1},"${booking.studio}","${booking.nama || ''}","${booking.nik || ''}","${booking.kelas || ''}","${booking.tanggal}","${booking.jam}","${booking.status}"\n`;
+    });
+
+    const blob = new Blob([csv], { type: 'text/csv' });
+    const url = window.URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = `studio-bookings-${new Date().toISOString().split('T')[0]}.csv`;
+    a.click();
+  }
+
+  // Close modal ketika klik di luar
+  window.onclick = function(event) {
+    const modal = document.getElementById('addModal');
+    if (event.target == modal) {
+      modal.style.display = 'none';
+    }
+  }
+
+  // Initial load from MySQL
+  loadBookings();
+  
+  // Auto-refresh every 5 seconds to sync with database
+  setInterval(loadBookings, 5000);
+</script>
+
+</body>
+</html>

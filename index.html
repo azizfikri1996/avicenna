@@ -1,0 +1,357 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Rent Studio</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&family=Playfair+Display:wght@700&display=swap" rel="stylesheet">
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    
+    body {
+      font-family: 'Poppins', sans-serif;
+      background: linear-gradient(135deg, rgba(161, 177, 158, 0.9) 0%, rgba(192, 192, 192, 0.9) 100%), url('./image/bg.jpeg') center/cover fixed;
+      background-blend-mode: overlay;
+      min-height: 100vh;
+      padding: 30px 20px;
+    }
+
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+
+    .header {
+      text-align: center;
+      margin-bottom: 60px;
+      color: #333;
+      animation: fadeIn 0.6s ease;
+      background: linear-gradient(135deg, 
+                    rgba(255, 253, 240, 0.25) 0%, 
+                    rgba(255, 248, 220, 0.2) 50%,
+                    rgba(255, 255, 255, 0.15) 100%);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      border-radius: 24px;
+      padding: 40px 30px;
+      border: 1px solid rgba(249, 202, 36, 0.25);
+      box-shadow: 0 8px 32px rgba(243, 156, 18, 0.15),
+                  inset 0 1px 0 rgba(255, 255, 255, 0.6),
+                  inset 0 -1px 0 rgba(249, 202, 36, 0.1);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .header::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: url('./image/avicenna studio.png') center/cover no-repeat;
+      opacity: 0.05;
+      z-index: 0;
+      filter: blur(3px);
+      mix-blend-mode: soft-light;
+    }
+
+    .header::after {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: linear-gradient(135deg, 
+                    rgba(249, 202, 36, 0.05) 0%, 
+                    rgba(255, 255, 255, 0.1) 50%,
+                    rgba(243, 156, 18, 0.05) 100%);
+      z-index: 0;
+    }
+
+    .header > * {
+      position: relative;
+      z-index: 1;
+    }
+
+    .logo-container {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 18px;
+      margin-bottom: 25px;
+    }
+
+    .logo {
+      width: 60px;
+      height: 60px;
+      border-radius: 50%;
+      object-fit: cover;
+      animation: bounce 0.6s ease;
+      padding: 3px;
+      background: rgba(255, 255, 255, 0.25);
+      backdrop-filter: blur(15px);
+      -webkit-backdrop-filter: blur(15px);
+      border: 2px solid rgba(255, 255, 255, 0.6);
+      box-shadow: 0 8px 32px rgba(0, 0, 0, 0.15),
+                  inset 0 1px 2px rgba(255, 255, 255, 0.7),
+                  0 0 0 8px rgba(255, 255, 255, 0.1),
+                  0 0 0 12px rgba(255, 255, 255, 0.05);
+    }
+
+    .header h1 {
+      font-family: 'Playfair Display', serif;
+      font-size: 48px;
+      font-weight: 700;
+      margin-bottom: 10px;
+      text-shadow: 2px 2px 4px rgba(255, 255, 255, 0.5),
+                   0 0 20px rgba(255, 255, 255, 0.3);
+      color: #2c3e50;
+    }
+
+    .header p {
+      font-size: 16px;
+      opacity: 0.9;
+      font-weight: 400;
+      letter-spacing: 0.5px;
+      color: #34495e;
+    }
+
+    @keyframes fadeIn {
+      from {
+        opacity: 0;
+        transform: translateY(-20px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    @keyframes bounce {
+      0%, 100% {
+        transform: scale(1);
+      }
+      50% {
+        transform: scale(1.05);
+      }
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+      gap: 35px;
+      padding: 20px 0;
+    }
+
+    .card {
+      background: linear-gradient(135deg, 
+                    rgba(255, 255, 255, 0.8) 0%, 
+                    rgba(255, 253, 240, 0.7) 50%,
+                    rgba(255, 255, 255, 0.75) 100%);
+      backdrop-filter: blur(15px);
+      -webkit-backdrop-filter: blur(15px);
+      border-radius: 20px;
+      overflow: hidden;
+      box-shadow: 0 15px 40px rgba(243, 156, 18, 0.15),
+                  inset 0 1px 0 rgba(255, 255, 255, 0.9);
+      transition: all 0.4s cubic-bezier(0.23, 1, 0.320, 1);
+      cursor: pointer;
+      position: relative;
+      border: 1px solid rgba(249, 202, 36, 0.2);
+    }
+
+    .card::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 4px;
+      background: linear-gradient(90deg, #f9ca24, #f39c12);
+      z-index: 10;
+      box-shadow: 0 2px 8px rgba(243, 156, 18, 0.3);
+    }
+
+    .card:hover {
+      transform: translateY(-15px) scale(1.01);
+      box-shadow: 0 25px 60px rgba(243, 156, 18, 0.25),
+                  0 0 30px rgba(249, 202, 36, 0.15),
+                  inset 0 1px 0 rgba(255, 255, 255, 1);
+      border-color: rgba(249, 202, 36, 0.4);
+      background: linear-gradient(135deg, 
+                    rgba(255, 255, 255, 0.85) 0%, 
+                    rgba(255, 253, 240, 0.8) 50%,
+                    rgba(255, 255, 255, 0.82) 100%);
+    }
+
+    .card img {
+      width: 100%;
+      height: 200px;
+      object-fit: cover;
+      transition: transform 0.4s ease;
+    }
+
+    .card:hover img {
+      transform: scale(1.08);
+    }
+
+    .card-content {
+      padding: 28px;
+    }
+
+    .card h3 {
+      margin: 0 0 12px 0;
+      font-size: 24px;
+      font-weight: 700;
+      color: #333;
+      letter-spacing: -0.5px;
+    }
+
+    .card p {
+      color: #666;
+      font-size: 14px;
+      margin: 10px 0;
+      font-weight: 400;
+      line-height: 1.6;
+    }
+
+
+    .price {
+      font-weight: 700 !important;
+      color: #040705 !important;
+      font-size: 20px !important;
+      margin-top: 18px !important;
+    }
+
+    button {
+      width: 100%;
+      padding: 14px 28px;
+      margin-top: 20px;
+      border: 2px solid #f39c12;
+      background: linear-gradient(135deg, #f9ca24 0%, #f39c12 100%);
+      color: #333;
+      border-radius: 12px;
+      cursor: pointer;
+      font-size: 16px;
+      font-weight: 700;
+      font-family: 'Poppins', sans-serif;
+      transition: all 0.3s cubic-bezier(0.23, 1, 0.320, 1);
+      box-shadow: 0 4px 15px rgba(243, 156, 18, 0.3);
+      letter-spacing: 0.5px;
+      text-transform: uppercase;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+    }
+
+    button::before {
+      content: '📅';
+      font-size: 18px;
+    }
+
+    button:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 6px 20px rgba(243, 156, 18, 0.5);
+      background: linear-gradient(135deg, #f39c12 0%, #e67e22 100%);
+      border-color: #e67e22;
+    }
+
+    button:active {
+      transform: translateY(-1px);
+      box-shadow: 0 2px 8px rgba(243, 156, 18, 0.4);
+    }
+  </style>
+</head>
+<body>
+
+<div class="container">
+  <div class="header">
+    <h1>AVICENNA STUDIO</h1>
+    <p>Find the best studio for your needs</p>
+  </div>
+
+  <!-- IMAGE AND TEXT NOT NEEDED -->
+  <div class="grid">
+  <!-- Loop Studio -->
+  <div class="card">
+  <!-- <img src="https://via.placeholder.com/400x250?text=Studio+1" alt="Studio 1"> -->
+    <div class="card-content">
+      <h3>Studio 1</h3>
+      <p>Capacity: 5 people</p>
+      <p>Description:
+        Studio 1 is a versatile studio ideal for product photography, short videos, and other creative sessions. With professional lighting and customizable backgrounds, this studio provides maximum flexibility to meet your production needs.
+      </p>
+      <button onclick="selectStudio('Studio 1')">Register</button>
+    </div>
+  </div>
+
+  <div class="card">
+  <!-- <img src="https://via.placeholder.com/400x250?text=Studio+2" alt="Studio 2"> -->
+    <div class="card-content">
+      <h3>Studio 2</h3>
+      <p>Capacity: 8 people</p>
+      <p>Description:
+        Studio 2 is specially designed for video and photography production with larger space requirements. Equipped with advanced equipment and adjustable lighting systems, this studio is suitable for projects requiring complex setups and high creativity.
+      </p>
+      <button onclick="selectStudio('Studio 2')">Register</button>
+    </div>
+  </div>
+
+  <div class="card">
+    <!-- <img src="https://via.placeholder.com/400x250?text=Studio+2" alt="Studio 2"> -->
+    <div class="card-content">
+      <h3>Studio 3</h3>
+      <p>Capacity: 8 people</p>
+      <p>Description:
+        Studio 3 is the perfect choice for family photo sessions, small events, or other creative projects. With a warm atmosphere and complete equipment, this studio provides comfort and ease for users to produce their best work.
+      </p>
+      <button onclick="selectStudio('Studio 3')">Register</button>
+    </div>
+  </div>
+
+  <div class="card">
+    <!-- <img src="https://via.placeholder.com/400x250?text=Studio+2" alt="Studio 2"> -->
+    <div class="card-content">
+      <h3>Studio 4</h3>
+      <p>Capacity: 8 people</p>
+      <p>Description:
+        Studio 4 offers spacious and versatile space for various types of production. With modern facilities and reliable technical support, this studio is ideal for professional projects requiring high quality and efficiency in execution.
+      </p>
+      <button onclick="selectStudio('Studio 4')">Register</button>
+    </div>
+  </div>
+
+  <div class="card">
+    <!-- <img src="https://via.placeholder.com/400x250?text=Studio+2" alt="Studio 2"> -->
+    <div class="card-content">
+      <h3>Studio 5</h3>
+      <p>Capacity: 8 people</p>
+      <p>Description:
+        Studio 5 offers spacious and versatile space for various types of production. With modern facilities and reliable technical support, this studio is ideal for professional projects requiring high quality and efficiency in execution.
+      </p>
+      <button onclick="selectStudio('Studio 5')">Register</button>
+    </div>
+  </div>
+
+  <!-- Copy up to Studio 7 -->
+  </div>
+</div>
+
+<script>
+  function selectStudio(studio) {
+    localStorage.setItem('studio', studio);
+    window.location.href = 'jadwal.html';
+  }
+</script>
+
+</body>
+</html>

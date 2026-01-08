@@ -1,0 +1,489 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Live Studio Display - Alazka Studio</title>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&family=Playfair+Display:wght@700&display=swap" rel="stylesheet">
+
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+
+html,body{
+  width:100%;
+  height:100%;
+}
+
+body{
+  font-family:'Poppins',sans-serif;
+  background: linear-gradient(135deg, rgba(161, 177, 158, 0.9) 0%, rgba(192, 192, 192, 0.9) 100%), url('./image/bg.jpeg') center/cover fixed;
+  background-blend-mode: overlay;
+  color:#333;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  overflow:hidden;
+}
+
+/* CANVAS ULTRA WIDE 2560x1080 */
+.container{
+  width:2560px;
+  height:1080px;
+  padding:24px;
+  display:flex;
+  flex-direction:column;
+  gap:20px;
+}
+
+/* HEADER */
+.header{
+  background: #ffffff;
+  padding:20px 28px;
+  border-radius:24px;
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  box-shadow: 0 8px 32px rgba(243, 156, 18, 0.15);
+  border: 1px solid rgba(249, 202, 36, 0.25);
+}
+
+.header > * {
+  position: relative;
+  z-index: 1;
+}
+
+.header h1{
+  font-family:'Playfair Display',serif;
+  font-size:36px;
+  color:#2c3e50;
+  text-shadow: 2px 2px 4px rgba(255, 255, 255, 0.5),
+               0 0 20px rgba(255, 255, 255, 0.3);
+}
+
+.header p{
+  font-size:16px;
+  opacity:.9;
+  color:#34495e;
+}
+
+.time-display{
+  margin-top:6px;
+  font-size:28px;
+  font-family:monospace;
+  font-weight:700;
+  color:#f39c12;
+  text-shadow: 0 2px 10px rgba(243, 156, 18, 0.4);
+}
+
+.fullscreen-btn{
+  background: linear-gradient(135deg, #f9ca24 0%, #f39c12 100%);
+  border:2px solid #f39c12;
+  color:#333;
+  padding:14px 22px;
+  font-size:18px;
+  font-weight:700;
+  border-radius:12px;
+  cursor:pointer;
+  box-shadow: 0 4px 15px rgba(243, 156, 18, 0.3);
+  transition: all 0.3s ease;
+}
+
+.fullscreen-btn:hover{
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(243, 156, 18, 0.5);
+  background: linear-gradient(135deg, #f39c12 0%, #e67e22 100%);
+}
+
+/* MAIN GRID */
+.main{
+  flex:1;
+  display:grid;
+  grid-template-columns: 3fr 1fr;
+  gap:20px;
+}
+
+/* STUDIO GRID WITH GLASSMORPHISM */
+.studio-grid{
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  grid-auto-rows: minmax(180px, auto);
+  gap:15px;
+  overflow-y:auto;
+}
+
+.studio-card{
+  background: #ffffff;
+  border-radius:20px;
+  overflow:hidden;
+  display:flex;
+  flex-direction:column;
+  box-shadow: 0 8px 32px rgba(31, 38, 135, 0.15),
+              0 20px 60px rgba(243, 156, 18, 0.08);
+  border: 1.5px solid rgba(249, 202, 36, 0.2);
+  position:relative;
+  transition: all 0.3s ease;
+  max-height: 200px;
+}
+
+.studio-card::before{
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 5px;
+  z-index: 10;
+  opacity: 0.8;
+}
+
+.studio-card.in-use::before{
+  background:linear-gradient(90deg, rgba(231, 76, 60, 0.9), rgba(192, 57, 43, 0.9));
+  box-shadow: 0 4px 12px rgba(231, 76, 60, 0.4);
+}
+.studio-card.upcoming::before{
+  background:linear-gradient(90deg, rgba(249, 202, 36, 0.9), rgba(243, 156, 18, 0.9));
+  box-shadow: 0 4px 12px rgba(243, 156, 18, 0.4);
+}
+.studio-card.available::before{
+  background:linear-gradient(90deg, rgba(46, 204, 113, 0.9), rgba(39, 174, 96, 0.9));
+  box-shadow: 0 4px 12px rgba(46, 204, 113, 0.4);
+}
+
+.studio-card:hover{
+  transform: translateY(-5px);
+  box-shadow: 0 12px 48px rgba(31, 38, 135, 0.2),
+              0 30px 80px rgba(243, 156, 18, 0.15);
+}
+
+.card-header{
+  padding:12px 16px;
+  border-bottom:2px solid rgba(255,255,255,.35);
+}
+
+.studio-name{
+  font-size:22px;
+  font-weight:700;
+  color:#2c3e50;
+  text-shadow: 0 1px 2px rgba(255, 255, 255, 0.8);
+}
+
+.status-badge{
+  margin-top:4px;
+  font-size:12px;
+  font-weight:600;
+  padding:4px 10px;
+  border-radius:50px;
+  background:rgba(255,255,255,.35);
+  backdrop-filter: blur(10px);
+  display:inline-flex;
+  align-items:center;
+  gap:6px;
+  color:#333;
+}
+
+.live-dot{
+  width:10px;
+  height:10px;
+  border-radius:50%;
+  background:#e74c3c;
+  animation:pulse 1s infinite;
+  box-shadow: 0 0 10px rgba(231, 76, 60, 0.5);
+}
+
+.card-content{
+  padding:14px;
+  flex:1;
+  display:flex;
+  flex-direction:column;
+  justify-content:space-between;
+}
+
+.info-label{
+  font-size:12px;
+  opacity:.8;
+  text-transform:uppercase;
+  margin-bottom:2px;
+  color:#555;
+  font-weight:600;
+}
+
+.info-value{
+  font-size:16px;
+  font-weight:700;
+  margin-bottom:10px;
+  color:#2c3e50;
+  text-shadow: 0 1px 2px rgba(255, 255, 255, 0.8);
+}
+
+.customer-name{
+  font-size:15px;
+  font-weight:600;
+  margin-top:8px;
+  padding-top:8px;
+  border-top:1px solid rgba(0,0,0,.1);
+  color:#34495e;
+}
+
+.time-remaining{
+  margin-top:10px;
+  padding:8px;
+  background:rgba(249, 202, 36, 0.25);
+  backdrop-filter: blur(10px);
+  border-radius:8px;
+  text-align:center;
+  font-size:14px;
+  font-family:monospace;
+  font-weight:700;
+  color:#f39c12;
+  border: 1px solid rgba(249, 202, 36, 0.4);
+}
+
+.progress-bar{
+  height:8px;
+  background:rgba(0,0,0,.15);
+  border-radius:4px;
+  margin-top:8px;
+  overflow:hidden;
+}
+.progress-fill{
+  height:100%;
+  background: linear-gradient(90deg, #f9ca24, #f39c12);
+  box-shadow: 0 0 10px rgba(243, 156, 18, 0.5);
+}
+
+/* BOOKING LIST WITH GLASSMORPHISM */
+.booking-panel{
+  background: linear-gradient(135deg, 
+                rgba(255, 255, 255, 0.25) 0%, 
+                rgba(255, 255, 255, 0.15) 50%,
+                rgba(255, 255, 255, 0.2) 100%);
+  backdrop-filter: blur(25px) saturate(180%);
+  -webkit-backdrop-filter: blur(25px) saturate(180%);
+  border-radius:24px;
+  padding:20px;
+  border: 1.5px solid rgba(255, 255, 255, 0.3);
+  overflow-y:auto;
+  box-shadow: 0 8px 32px rgba(31, 38, 135, 0.15),
+              inset 0 1px 2px rgba(255, 255, 255, 0.8);
+}
+
+.booking-panel h3{
+  font-size:22px;
+  margin-bottom:14px;
+  font-weight:700;
+  color:#2c3e50;
+  text-shadow: 0 1px 2px rgba(255, 255, 255, 0.8);
+}
+
+.booking-item{
+  background:rgba(255,255,255,.35);
+  backdrop-filter: blur(10px);
+  padding:14px;
+  border-radius:10px;
+  border-left:5px solid #f39c12;
+  margin-bottom:10px;
+  font-size:14px;
+  color:#333;
+  font-weight:600;
+}
+
+.booking-item strong{
+  display:block;
+  font-size:15px;
+  margin-bottom:4px;
+  color:#2c3e50;
+}
+
+.booking-item-detail{
+  opacity:.8;
+  font-size:13px;
+  color:#555;
+}
+
+/* ANIMATION */
+@keyframes pulse{
+  0%,100%{opacity:1}
+  50%{opacity:.5}
+}
+</style>
+</head>
+
+<body>
+
+<div class="container">
+
+  <div class="header">
+    <div>
+      <h1>ALAZKA STUDIO LIVE DISPLAY</h1>
+      <p>Real-Time Studio Usage</p>
+      <div class="time-display" id="currentTime">00:00:00</div>
+    </div>
+    <button class="fullscreen-btn" onclick="toggleFullscreen()">⛶ Fullscreen</button>
+  </div>
+
+  <div class="main">
+    <div class="studio-grid" id="studioGrid"></div>
+
+    <div class="booking-panel">
+      <h3>📋 Today's Schedule</h3>
+      <div id="allBookingsList"></div>
+    </div>
+  </div>
+
+</div>
+
+<script>
+const studios=['Studio 1','Studio 2','Studio 3','Studio 4','Studio 5','Studio 6','Studio 7'];
+let cachedBookings = [];
+const API_URL = 'api.php';
+
+function formatTime(d){
+  return d.toLocaleTimeString('id-ID',{hour:'2-digit',minute:'2-digit',second:'2-digit'});
+}
+
+function todayBookings(){
+  const today=new Date().toISOString().split('T')[0];
+  const todays=cachedBookings.filter(b=>b.tanggal===today && isConfirmed(b));
+  return dedupeBookings(todays);
+}
+
+// Load bookings from MySQL via PHP API
+async function loadBookings(){
+  try {
+    console.log('[USER] Loading from MySQL at', new Date().toLocaleTimeString());
+    
+    const response = await fetch(`${API_URL}?action=getBookings`);
+    const data = await response.json();
+    
+    if (data.error) {
+      console.error('[USER] Error loading bookings:', data.error);
+      cachedBookings = [];
+    } else {
+      cachedBookings = data;
+      console.log('[USER] Loaded bookings from MySQL:', cachedBookings.length, 'items');
+    }
+    
+    renderStudios();
+    console.log('[USER] Studios rendered');
+  } catch (error) {
+    console.error('[USER] Error loading from MySQL:', error);
+    cachedBookings = [];
+    renderStudios();
+  }
+}
+
+function isConfirmed(b){
+  if(!b) return false;
+  // Show all bookings regardless of status (pending, confirmed, etc.)
+  return true;
+  
+  // Old code - only showed confirmed bookings:
+  // if(typeof b.konfirmasi!=='undefined') return !!b.konfirmasi;
+  // if(typeof b.confirmed!=='undefined') return !!b.confirmed;
+  // if(typeof b.status==='string'){
+  //   const val=b.status.toLowerCase();
+  //   return ['konfirmasi','confirmed','disetujui','approved'].includes(val);
+  // }
+  // return false;
+}
+
+function dedupeBookings(list){
+  const seen=new Set();
+  const result=[];
+  list.forEach(b=>{
+    const key=`${(b.studio||'').trim().toLowerCase()}__${normalizeJam(b.jam)}`;
+    if(seen.has(key)) return;
+    seen.add(key);
+    result.push(b);
+  });
+  return result;
+}
+
+function normalizeJam(jam){
+  if(!jam || typeof jam!=='string') return '';
+  return jam.replace(/\s+/g,'').replace(/\./g,':');
+}
+
+function statusStudio(studio){
+  const b=todayBookings().find(x=>x.studio===studio);
+  if(!b) return {status:'available'};
+  const [s,e]=b.jam.split('-');
+  const now=new Date();
+  const st=new Date();st.setHours(...s.split(':'),0);
+  const en=new Date();en.setHours(...e.split(':'),0);
+  if(now>=st&&now<en) return {status:'in-use',booking:b};
+  if(now<st) return {status:'upcoming',booking:b};
+  return {status:'available'};
+}
+
+function renderStudios(){
+  const grid=document.getElementById('studioGrid');
+  grid.innerHTML='';
+  studios.forEach(s=>{
+    const {status,booking}=statusStudio(s);
+    if(status==='available') return;
+    const card=document.createElement('div');
+    card.className=`studio-card ${status}`;
+    card.innerHTML=`
+      <div class="card-header">
+        <div class="studio-name">${s}</div>
+        <div class="status-badge">
+          <span class="live-dot"></span>
+          ${status==='in-use'?'In Use':'Upcoming'}
+        </div>
+      </div>
+      <div class="card-content">
+        <div>
+          <div class="info-label">Session Time</div>
+          <div class="info-value">${booking.jam}</div>
+          <div class="info-label">Customer</div>
+          <div class="customer-name">${booking.nama || 'No Name'}</div>
+        </div>
+      </div>`;
+    grid.appendChild(card);
+  });
+  renderBookings();
+}
+
+function renderBookings(){
+  const list=document.getElementById('allBookingsList');
+  list.innerHTML='';
+  const bookings = todayBookings();
+  if(bookings.length === 0){
+    list.innerHTML='<div style="text-align:center;opacity:.6;">No schedules today</div>';
+    return;
+  }
+  bookings.forEach(b=>{
+    const div=document.createElement('div');
+    div.className='booking-item';
+    div.innerHTML=`<strong>${b.studio}</strong><span class="booking-item-detail">⏰ ${b.jam}</span><span class="booking-item-detail" style="display:block;margin-top:4px;">👤 ${b.nama || 'Guest'}</span>`;
+    list.appendChild(div);
+  });
+}
+
+function toggleFullscreen(){
+  if(!document.fullscreenElement){
+    document.documentElement.requestFullscreen();
+  }else{
+    document.exitFullscreen();
+  }
+}
+
+setInterval(()=>document.getElementById('currentTime').innerText=formatTime(new Date()),1000);
+
+// Auto-refresh bookings from MySQL every 3 seconds
+setInterval(()=>{
+  console.log('[USER] Auto-refresh bookings from MySQL');
+  loadBookings();
+}, 3000);
+
+// Initial load
+console.log('[USER] Initial load');
+loadBookings();
+</script>
+
+</body>
+</html>
