@@ -1,8 +1,14 @@
 <?php
 header('Content-Type: application/json');
 header('Access-Control-Allow-Origin: *');
-header('Access-Control-Allow-Methods: GET, POST, PUT, DELETE');
-header('Access-Control-Allow-Headers: Content-Type');
+header('Access-Control-Allow-Methods: GET, POST, PUT, DELETE, OPTIONS');
+header('Access-Control-Allow-Headers: Content-Type, Authorization');
+
+// Handle preflight OPTIONS request
+if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
+    http_response_code(200);
+    exit();
+}
 
 require_once 'config.php';
 
@@ -55,6 +61,10 @@ switch($action) {
         removeBan($conn);
         break;
     
+    case 'getStudentByNIS':
+        getStudentByNIS($conn);
+        break;
+    
     default:
         echo json_encode(['error' => 'Invalid action']);
         break;
@@ -85,7 +95,22 @@ function getBookings($conn) {
 
 // Add new booking
 function addBooking($conn) {
-    $data = json_decode(file_get_contents('php://input'), true);
+    // Log request for debugging
+    error_log("addBooking called - Method: " . $_SERVER['REQUEST_METHOD']);
+    
+    $rawInput = file_get_contents('php://input');
+    error_log("Raw input: " . $rawInput);
+    
+    $data = json_decode($rawInput, true);
+    
+    if (!$data) {
+        $error = json_last_error_msg();
+        error_log("JSON decode error: " . $error);
+        echo json_encode(['success' => false, 'error' => 'Invalid JSON data: ' . $error]);
+        return;
+    }
+    
+    error_log("Decoded data: " . print_r($data, true));
     
     $studio = $data['studio'] ?? '';
     $tanggal = $data['tanggal'] ?? '';
@@ -97,17 +122,52 @@ function addBooking($conn) {
     $kelas = $data['kelas'] ?? '';
     $status = $data['status'] ?? 'pending';
     
+    // Validate required fields
+    if (empty($studio) || empty($tanggal) || empty($jam) || empty($nama) || empty($nik)) {
+        $missing = [];
+        if (empty($studio)) $missing[] = 'studio';
+        if (empty($tanggal)) $missing[] = 'tanggal';
+        if (empty($jam)) $missing[] = 'jam';
+        if (empty($nama)) $missing[] = 'nama';
+        if (empty($nik)) $missing[] = 'nik';
+        
+        error_log("Missing fields: " . implode(', ', $missing));
+        echo json_encode(['success' => false, 'error' => 'Missing required fields: ' . implode(', ', $missing)]);
+        return;
+    }
+    
+    // Check if slot is already booked
+    $checkSql = "SELECT COUNT(*) as count FROM studio_bookings 
+                 WHERE studio = ? AND tanggal = ? AND jam = ? AND (status = 'confirmed' OR status = 'pending')";
+    $checkStmt = $conn->prepare($checkSql);
+    $checkStmt->bind_param("sss", $studio, $tanggal, $jam);
+    $checkStmt->execute();
+    $checkResult = $checkStmt->get_result();
+    $checkRow = $checkResult->fetch_assoc();
+    
+    if ($checkRow['count'] > 0) {
+        error_log("Slot already booked: $studio - $tanggal - $jam");
+        echo json_encode(['success' => false, 'error' => 'Time slot already booked']);
+        return;
+    }
+    
     $sql = "INSERT INTO studio_bookings (studio, tanggal, jam, nama, hp, nik, email, kelas, status, created_at) 
             VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, NOW())";
     
     $stmt = $conn->prepare($sql);
+    
+    if (!$stmt) {
+        echo json_encode(['success' => false, 'error' => 'Database prepare failed: ' . $conn->error]);
+        return;
+    }
+    
     $stmt->bind_param("sssssssss", $studio, $tanggal, $jam, $nama, $hp, $nik, $email, $kelas, $status);
     
     if ($stmt->execute()) {
         $id = $conn->insert_id;
-        echo json_encode(['success' => true, 'id' => $id]);
+        echo json_encode(['success' => true, 'id' => $id, 'message' => 'Booking added successfully']);
     } else {
-        echo json_encode(['error' => 'Failed to add booking']);
+        echo json_encode(['success' => false, 'error' => 'Failed to add booking: ' . $stmt->error]);
     }
 }
 
@@ -117,6 +177,7 @@ function checkSlot($conn) {
     $tanggal = $_GET['tanggal'] ?? '';
     $jam = $_GET['jam'] ?? '';
     
+    // Check for confirmed bookings
     $sql = "SELECT COUNT(*) as count FROM studio_bookings 
             WHERE studio = ? AND tanggal = ? AND jam = ? AND status = 'confirmed'";
     
@@ -126,7 +187,25 @@ function checkSlot($conn) {
     $result = $stmt->get_result();
     $row = $result->fetch_assoc();
     
-    echo json_encode(['booked' => $row['count'] > 0]);
+    $booked = $row['count'] > 0;
+    
+    // Check for pending bookings
+    $sql2 = "SELECT COUNT(*) as count FROM studio_bookings 
+             WHERE studio = ? AND tanggal = ? AND jam = ? AND status = 'pending'";
+    
+    $stmt2 = $conn->prepare($sql2);
+    $stmt2->bind_param("sss", $studio, $tanggal, $jam);
+    $stmt2->execute();
+    $result2 = $stmt2->get_result();
+    $row2 = $result2->fetch_assoc();
+    
+    $hasPending = $row2['count'] > 0;
+    
+    echo json_encode([
+        'booked' => $booked,
+        'hasPending' => $hasPending,
+        'available' => !$booked && !$hasPending
+    ]);
 }
 
 // Check if user is banned
@@ -298,6 +377,62 @@ function removeBan($conn) {
         echo json_encode(['error' => 'Failed to remove ban']);
     }
 }
+
+// Get student info by NIS
+function getStudentByNIS($conn) {
+    $nis = isset($_GET['nis']) ? $_GET['nis'] : '';
+    
+    if (empty($nis)) {
+        echo json_encode(array('success' => false, 'error' => 'NIS is required'));
+        return;
+    }
+    
+    // Check if students table exists
+    $tableCheck = $conn->query("SHOW TABLES LIKE 'students'");
+    if (!$tableCheck || $tableCheck->num_rows === 0) {
+        echo json_encode(array(
+            'success' => false, 
+            'error' => 'Students table not found. Please create the table first.'
+        ));
+        return;
+    }
+    
+    $sql = "SELECT nis, nama, kelas FROM students WHERE nis = ?";
+    $stmt = $conn->prepare($sql);
+    
+    if (!$stmt) {
+        echo json_encode(array('success' => false, 'error' => 'Database prepare error: ' . $conn->error));
+        return;
+    }
+    
+    $stmt->bind_param("s", $nis);
+    
+    if (!$stmt->execute()) {
+        echo json_encode(array('success' => false, 'error' => 'Execute error: ' . $stmt->error));
+        $stmt->close();
+        return;
+    }
+    
+    // Bind result variables
+    $stmt->bind_result($result_nis, $result_nama, $result_kelas);
+    
+    if ($stmt->fetch()) {
+        echo json_encode(array(
+            'success' => true,
+            'nis' => $result_nis,
+            'nama' => $result_nama,
+            'kelas' => $result_kelas
+        ));
+    } else {
+        echo json_encode(array(
+            'success' => false,
+            'error' => 'Student not found'
+        ));
+    }
+    
+    $stmt->close();
+}
+
 
 $conn->close();
 ?>

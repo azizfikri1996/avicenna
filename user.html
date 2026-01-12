@@ -125,7 +125,7 @@ body{
   border: 1.5px solid rgba(249, 202, 36, 0.2);
   position:relative;
   transition: all 0.3s ease;
-  max-height: 200px;
+  max-height: 250px;
 }
 
 .studio-card::before{
@@ -140,12 +140,20 @@ body{
 }
 
 .studio-card.in-use::before{
-  background:linear-gradient(90deg, rgba(231, 76, 60, 0.9), rgba(192, 57, 43, 0.9));
-  box-shadow: 0 4px 12px rgba(231, 76, 60, 0.4);
+  background:linear-gradient(90deg, rgba(46, 204, 113, 0.9), rgba(39, 174, 96, 0.9));
+  box-shadow: 0 4px 12px rgba(46, 204, 113, 0.4);
+}
+.studio-card.in-use{
+  background: linear-gradient(135deg, rgba(46, 204, 113, 0.15) 0%, rgba(39, 174, 96, 0.1) 100%), #ffffff;
+  border: 1.5px solid rgba(46, 204, 113, 0.4);
 }
 .studio-card.upcoming::before{
   background:linear-gradient(90deg, rgba(249, 202, 36, 0.9), rgba(243, 156, 18, 0.9));
   box-shadow: 0 4px 12px rgba(243, 156, 18, 0.4);
+}
+.studio-card.upcoming{
+  background: linear-gradient(135deg, rgba(249, 202, 36, 0.15) 0%, rgba(243, 156, 18, 0.1) 100%), #ffffff;
+  border: 1.5px solid rgba(249, 202, 36, 0.4);
 }
 .studio-card.available::before{
   background:linear-gradient(90deg, rgba(46, 204, 113, 0.9), rgba(39, 174, 96, 0.9));
@@ -308,6 +316,284 @@ body{
   0%,100%{opacity:1}
   50%{opacity:.5}
 }
+
+/* RESPONSIVE MEDIA QUERIES */
+/* Desktop & Large Screens (default above) */
+
+/* Tablet & Medium Screens */
+@media (max-width: 1440px) {
+  .container {
+    width: 100%;
+    max-width: 1200px;
+    height: auto;
+    min-height: 100vh;
+  }
+
+  .header h1 {
+    font-size: 28px;
+  }
+
+  .studio-grid {
+    grid-template-columns: repeat(2, 1fr);
+    grid-auto-rows: minmax(200px, auto);
+  }
+}
+
+/* Small Tablets */
+@media (max-width: 1024px) {
+  .container {
+    padding: 16px;
+  }
+
+  .main {
+    grid-template-columns: 1fr;
+    gap: 16px;
+  }
+
+  .studio-grid {
+    max-height: none;
+    grid-auto-rows: minmax(180px, auto);
+  }
+
+  .booking-panel {
+    max-height: 400px;
+  }
+
+  .header h1 {
+    font-size: 24px;
+  }
+
+  .time-display {
+    font-size: 22px;
+  }
+
+  .fullscreen-btn {
+    padding: 12px 18px;
+    font-size: 16px;
+  }
+}
+
+/* Mobile Landscape & Small Tablets */
+@media (max-width: 768px) {
+  body {
+    align-items: flex-start;
+    overflow-y: auto;
+  }
+
+  .container {
+    width: 100%;
+    padding: 12px;
+    min-height: 100vh;
+  }
+
+  .header {
+    flex-direction: column;
+    gap: 12px;
+    padding: 16px;
+    text-align: center;
+  }
+
+  .header h1 {
+    font-size: 20px;
+  }
+
+  .header p {
+    font-size: 14px;
+  }
+
+  .time-display {
+    font-size: 20px;
+    margin-top: 4px;
+  }
+
+  .fullscreen-btn {
+    width: 100%;
+    padding: 12px 16px;
+    font-size: 15px;
+  }
+
+  .studio-grid {
+    grid-template-columns: 1fr;
+    gap: 12px;
+  }
+
+  .studio-card {
+    max-height: none;
+  }
+
+  .card-header {
+    padding: 12px 14px;
+  }
+
+  .studio-name {
+    font-size: 18px;
+  }
+
+  .card-content {
+    padding: 12px;
+  }
+
+  .info-value {
+    font-size: 14px;
+  }
+
+  .booking-panel {
+    padding: 16px;
+    max-height: 350px;
+  }
+
+  .booking-panel h3 {
+    font-size: 18px;
+  }
+
+  .booking-item {
+    padding: 12px;
+    font-size: 13px;
+  }
+
+  .booking-item strong {
+    font-size: 14px;
+  }
+}
+
+/* Mobile Portrait */
+@media (max-width: 480px) {
+  .container {
+    padding: 8px;
+    gap: 12px;
+  }
+
+  .header {
+    padding: 12px;
+    border-radius: 16px;
+  }
+
+  .header h1 {
+    font-size: 18px;
+  }
+
+  .header p {
+    font-size: 12px;
+  }
+
+  .time-display {
+    font-size: 18px;
+  }
+
+  .fullscreen-btn {
+    padding: 10px 14px;
+    font-size: 14px;
+  }
+
+  .main {
+    gap: 12px;
+  }
+
+  .studio-grid {
+    gap: 10px;
+  }
+
+  .studio-card {
+    border-radius: 16px;
+  }
+
+  .card-header {
+    padding: 10px 12px;
+  }
+
+  .studio-name {
+    font-size: 16px;
+  }
+
+  .status-badge {
+    font-size: 11px;
+    padding: 3px 8px;
+  }
+
+  .live-dot {
+    width: 8px;
+    height: 8px;
+  }
+
+  .card-content {
+    padding: 10px;
+  }
+
+  .info-label {
+    font-size: 11px;
+  }
+
+  .info-value {
+    font-size: 13px;
+    margin-bottom: 8px;
+  }
+
+  .customer-name {
+    font-size: 13px;
+    margin-top: 6px;
+    padding-top: 6px;
+  }
+
+  .time-remaining {
+    padding: 6px;
+    font-size: 12px;
+    margin-top: 8px;
+  }
+
+  .booking-panel {
+    padding: 12px;
+    border-radius: 16px;
+    max-height: 300px;
+  }
+
+  .booking-panel h3 {
+    font-size: 16px;
+    margin-bottom: 10px;
+  }
+
+  .booking-item {
+    padding: 10px;
+    font-size: 12px;
+    margin-bottom: 8px;
+    border-radius: 8px;
+  }
+
+  .booking-item strong {
+    font-size: 13px;
+    margin-bottom: 3px;
+  }
+
+  .booking-item-detail {
+    font-size: 11px;
+  }
+}
+
+/* Small Mobile */
+@media (max-width: 375px) {
+  .container {
+    padding: 6px;
+  }
+
+  .header h1 {
+    font-size: 16px;
+  }
+
+  .time-display {
+    font-size: 16px;
+  }
+
+  .studio-name {
+    font-size: 15px;
+  }
+
+  .info-value {
+    font-size: 12px;
+  }
+
+  .booking-panel h3 {
+    font-size: 15px;
+  }
+}
 </style>
 </head>
 
@@ -317,7 +603,7 @@ body{
 
   <div class="header">
     <div>
-      <h1>ALAZKA STUDIO LIVE DISPLAY</h1>
+      <h1>Avicenna STUDIO LIVE DISPLAY</h1>
       <p>Real-Time Studio Usage</p>
       <div class="time-display" id="currentTime">00:00:00</div>
     </div>
@@ -378,17 +664,14 @@ async function loadBookings(){
 
 function isConfirmed(b){
   if(!b) return false;
-  // Show all bookings regardless of status (pending, confirmed, etc.)
-  return true;
-  
-  // Old code - only showed confirmed bookings:
-  // if(typeof b.konfirmasi!=='undefined') return !!b.konfirmasi;
-  // if(typeof b.confirmed!=='undefined') return !!b.confirmed;
-  // if(typeof b.status==='string'){
-  //   const val=b.status.toLowerCase();
-  //   return ['konfirmasi','confirmed','disetujui','approved'].includes(val);
-  // }
-  // return false;
+  // Only show confirmed bookings in user.html display
+  if(typeof b.konfirmasi!=='undefined') return !!b.konfirmasi;
+  if(typeof b.confirmed!=='undefined') return !!b.confirmed;
+  if(typeof b.status==='string'){
+    const val=b.status.toLowerCase();
+    return ['konfirmasi','confirmed','disetujui','approved'].includes(val);
+  }
+  return false;
 }
 
 function dedupeBookings(list){
@@ -441,7 +724,8 @@ function renderStudios(){
           <div class="info-label">Session Time</div>
           <div class="info-value">${booking.jam}</div>
           <div class="info-label">Customer</div>
-          <div class="customer-name">${booking.nama || 'No Name'}</div>
+          <div class="customer-name" style="margin-top:4px;padding-top:4px;border-top:none;">👤 ${booking.nama || 'No Name'}</div>
+          ${booking.kelas ? `<div class="customer-name" style="margin-top:2px;padding-top:2px;border-top:none;">📚 ${booking.kelas}</div>` : ''}
         </div>
       </div>`;
     grid.appendChild(card);
@@ -460,7 +744,7 @@ function renderBookings(){
   bookings.forEach(b=>{
     const div=document.createElement('div');
     div.className='booking-item';
-    div.innerHTML=`<strong>${b.studio}</strong><span class="booking-item-detail">⏰ ${b.jam}</span><span class="booking-item-detail" style="display:block;margin-top:4px;">👤 ${b.nama || 'Guest'}</span>`;
+    div.innerHTML=`<strong>${b.studio}</strong><span class="booking-item-detail">⏰ ${b.jam}</span><span class="booking-item-detail" style="display:block;margin-top:4px;">👤 ${b.nama || 'Guest'}</span>${b.kelas ? `<span class="booking-item-detail" style="display:block;margin-top:2px;">📚 ${b.kelas}</span>` : ''}`;
     list.appendChild(div);
   });
 }

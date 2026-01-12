@@ -17,125 +17,26 @@
 
     body { 
       font-family: 'Poppins', sans-serif;
-      background-image: url('https://alazka.sch.id/Avicenna/image/Avicenna.jpeg');
-      background-size: cover;
-      background-position: center;
-      background-attachment: fixed;
-      background-repeat: no-repeat;
+      background: linear-gradient(135deg, rgba(161, 177, 158, 0.9) 0%, rgba(192, 192, 192, 0.9) 100%), url('./image/bg.jpeg') center/cover fixed;
+      background-blend-mode: overlay;
       min-height: 100vh;
       padding: 30px 20px;
       display: flex;
       align-items: center;
       justify-content: center;
-      position: relative;
-    }
-    
-    body::before {
-      content: '';
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      background: linear-gradient(135deg, 
-        rgba(0, 0, 0, 0.3) 0%, 
-        rgba(0, 0, 0, 0.2) 50%,
-        rgba(0, 0, 0, 0.3) 100%);
-      z-index: 0;
-      pointer-events: none;
     }
 
     .container {
       max-width: 500px;
       width: 100%;
-      position: relative;
-      z-index: 1;
     }
 
     .card {
-      background: linear-gradient(135deg, 
-        rgba(255, 255, 255, 0.3) 0%, 
-        rgba(255, 255, 255, 0.2) 100%);
-      backdrop-filter: blur(25px) saturate(180%);
-      -webkit-backdrop-filter: blur(25px) saturate(180%);
-      border-radius: 24px;
+      background: white;
+      border-radius: 20px;
       padding: 40px;
-      box-shadow: 
-        0 8px 32px 0 rgba(0, 0, 0, 0.25),
-        inset 0 1px 0 0 rgba(255, 255, 255, 0.6),
-        0 0 0 1px rgba(255, 255, 255, 0.2);
-      border: 1.5px solid rgba(255, 255, 255, 0.4);
-      animation: slideUp 0.6s ease, glassFloat 8s ease-in-out infinite;
-      position: relative;
-      overflow: hidden;
-      z-index: 1;
-    }
-    
-    .card::before {
-      content: '';
-      position: absolute;
-      top: 0;
-      left: -100%;
-      width: 100%;
-      height: 100%;
-      background: linear-gradient(90deg, 
-        transparent 0%, 
-        rgba(255, 255, 255, 0.3) 50%, 
-        transparent 100%);
-      animation: glassShine 3s ease-in-out infinite;
-      pointer-events: none;
-      z-index: 1;
-    }
-    
-    .card::after {
-      content: '';
-      position: absolute;
-      top: -50%;
-      right: -50%;
-      width: 200px;
-      height: 200px;
-      background: radial-gradient(circle, 
-        rgba(147, 197, 253, 0.3) 0%, 
-        transparent 70%);
-      border-radius: 50%;
-      animation: glassOrb 10s ease-in-out infinite;
-      pointer-events: none;
-      z-index: 0;
-      filter: blur(40px);
-    }
-    
-    .card > * {
-      position: relative;
-      z-index: 2;
-    }
-    
-    @keyframes glassFloat {
-      0%, 100% { 
-        transform: translateY(0);
-      }
-      50% { 
-        transform: translateY(-5px);
-      }
-    }
-    
-    @keyframes glassShine {
-      0% { 
-        left: -100%;
-      }
-      50%, 100% { 
-        left: 100%;
-      }
-    }
-    
-    @keyframes glassOrb {
-      0%, 100% { 
-        transform: translate(0, 0) scale(1);
-        opacity: 0.3;
-      }
-      50% { 
-        transform: translate(-100px, 100px) scale(1.5);
-        opacity: 0.5;
-      }
+      box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+      animation: slideUp 0.6s ease;
     }
 
     @keyframes slideUp {
@@ -156,14 +57,19 @@
 
     .logo {
       width: 80px;
-      height: 80px;
-      border-radius: 16px;
+      height: auto;
       object-fit: contain;
       margin-bottom: 15px;
-      padding: 10px;
-      background: linear-gradient(135deg, rgba(102, 126, 234, 0.1) 0%, rgba(118, 75, 162, 0.1) 100%);
-      border: 2px solid rgba(102, 126, 234, 0.2);
-      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+      padding: 12px;
+      background: linear-gradient(135deg, rgba(255, 255, 255, 0.4) 0%, rgba(255, 255, 255, 0.2) 100%);
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
+      border-radius: 16px;
+      box-shadow: 
+        0 8px 32px rgba(0, 0, 0, 0.15),
+        inset 0 1px 0 rgba(255, 255, 255, 0.5),
+        0 0 0 1px rgba(255, 255, 255, 0.2);
+      border: 1px solid rgba(255, 255, 255, 0.3);
       animation: fadeIn 0.6s ease;
     }
 
@@ -459,7 +365,7 @@
 
     /* Calendar Grid Styles */
     .calendar-container {
-      background: rgba(255,255,255,0.8);
+      background: rgba(255,255,255,0.95);
       border-radius: 12px;
       padding: 15px;
       border: 2px solid #e0e0e0;
@@ -575,56 +481,10 @@
       cursor: default;
     }
 
-    .selected-dates-display {
-      margin-top: 15px;
-      padding: 12px;
-      background: rgba(102, 126, 234, 0.1);
-      border-radius: 8px;
-      border-left: 4px solid #667eea;
-    }
-
-    .selected-dates-display h4 {
-      font-size: 13px;
-      color: #667eea;
-      margin-bottom: 8px;
-      font-weight: 700;
-    }
-
-    .selected-dates-chips {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 6px;
-    }
-
-    .date-chip {
-      display: inline-flex;
-      align-items: center;
-      gap: 6px;
-      padding: 4px 10px;
-      background: white;
-      border: 1px solid #667eea;
-      border-radius: 20px;
-      font-size: 12px;
-      color: #667eea;
-      font-weight: 600;
-    }
-
-    .date-chip .remove {
-      cursor: pointer;
-      font-weight: 700;
-      color: #e74c3c;
-      font-size: 14px;
-      line-height: 1;
-    }
-
-    .date-chip .remove:hover {
-      color: #c0392b;
-    }
-
     /* Time Slot Panel Styles */
     .time-slot-panel {
       display: none;
-      background: rgba(255,255,255,0.9);
+      background: rgba(255,255,255,0.95);
       border-radius: 12px;
       padding: 15px;
       margin-top: 15px;
@@ -772,13 +632,13 @@
       <label for="studio">Selected Studio</label>
       <select id="studio" required>
         <option value="">-- Select Studio --</option>
-        <option value="Studio 1">Studio 1 - Gitar Akustik (Capacity 5 people)</option>
-        <option value="Studio 2">Studio 2 - Gitar Elektrik (Capacity 6 people)</option>
-        <option value="Studio 3">Studio 3 - Vokal (Capacity 6 people)</option>
-        <option value="Studio 4">Studio 4 - Drum (Capacity 6 people)</option>
-        <option value="Studio 5">Studio 5 - Keyboard (Capacity 6 people)</option>
-        <option value="Studio 6">Studio 6 - Full Band, Studio Rekaman (Capacity 10 people)</option>
-        <option value="Studio 8">Studio 8 (Capacity 10 people)</option>
+        <option value="Studio 1">Studio 1 - Capacity 5 people (Recording Studio)</option>
+        <option value="Studio 2">Studio 2 - Capacity 6 people (Acoustic Guitar Studio)</option>
+        <option value="Studio 3">Studio 3 - Capacity 6 people (Drum Studio)</option>
+        <option value="Studio 4">Studio 4 - Capacity 6 people (Electric Guitar Studio)</option>
+        <option value="Studio 5">Studio 5 - Capacity 6 people (Piano Studio)</option>
+        <option value="Studio 6">Studio 6 - Capacity 10 people (Band Studio)</option>
+        <option value="Studio 7">Studio 7 - Capacity 10 people (Band Studio)</option>
       </select>
     </div>
 
@@ -827,8 +687,8 @@
     </div>
 
     <div class="form-group">
-      <label for="nikPendaftar">ID Number (NIS)</label>
-      <input type="text" id="nikPendaftar" placeholder="Enter ID number" style="width:100%; padding:14px; border:2px solid #e0e0e0; border-radius:12px; font-size:16px;" required>
+      <label for="NIKPendaftar">ID Number (NIK)</label>
+      <input type="text" id="NIKPendaftar" placeholder="Enter ID number" style="width:100%; padding:14px; border:2px solid #e0e0e0; border-radius:12px; font-size:16px;" required>
     </div>
 
     <div class="form-group">
@@ -949,56 +809,74 @@
   if (storedNama && document.getElementById('namaPendaftar')) {
     document.getElementById('namaPendaftar').value = storedNama;
   }
-  const storedNik = sessionStorage.getItem('nik');
-  if (storedNik && document.getElementById('nikPendaftar')) {
-    document.getElementById('nikPendaftar').value = storedNik;
+  const storedNIK = sessionStorage.getItem('NIK');
+  if (storedNIK && document.getElementById('NIKPendaftar')) {
+    document.getElementById('NIKPendaftar').value = storedNIK;
   }
   const storedKelas = sessionStorage.getItem('kelas');
   if (storedKelas && document.getElementById('kelasPendaftaran')) {
     document.getElementById('kelasPendaftaran').value = storedKelas;
   }
 
-  // Auto-fill name and class when NIS is entered (fetch from database)
-  const nikInput = document.getElementById('nikPendaftar');
+  // Auto-fill name and class when NIK is entered (fetch from database)
+  const NIKInput = document.getElementById('NIKPendaftar');
   const namaInput = document.getElementById('namaPendaftar');
   const kelasInput = document.getElementById('kelasPendaftaran');
   
-  if (nikInput && namaInput) {
-    // Debounce function to avoid too many API calls
+  if (NIKInput && namaInput) {
+    console.log('Auto-fill initialized for NIK input');
     let debounceTimer;
     
-    nikInput.addEventListener('input', function() {
-      const nis = this.value.trim();
-      
-      // Clear previous timer
+    NIKInput.addEventListener('input', function() {
+      const NIK = this.value.trim();
+      console.log('NIK input changed:', NIK);
       clearTimeout(debounceTimer);
       
-      // Reset if empty
-      if (nis === '') {
+      if (NIK === '') {
         namaInput.value = '';
         namaInput.style.backgroundColor = '';
+        namaInput.placeholder = 'Enter your name';
         if (kelasInput) kelasInput.value = '';
         return;
       }
       
-      // Set debounce delay (500ms after user stops typing)
       debounceTimer = setTimeout(async function() {
+        console.log('Fetching student data for NIK:', NIK);
         try {
-          const response = await fetch(`/Avicenna/api.php?action=getStudentByNIS&nis=${encodeURIComponent(nis)}`);
-          const data = await response.json();
+          const url = `/Avicenna/api.php?action=getStudentByNIK&NIK=${encodeURIComponent(NIK)}`;
+          console.log('Fetch URL:', url);
+          const response = await fetch(url);
+          console.log('Response status:', response.status);
+          
+          const responseText = await response.text();
+          console.log('Response text:', responseText);
+          
+          let data;
+          try {
+            data = JSON.parse(responseText);
+          } catch (e) {
+            console.error('Failed to parse JSON:', e);
+            namaInput.style.backgroundColor = '#fff3cd';
+            namaInput.readOnly = false;
+            namaInput.placeholder = 'Error - Enter manually';
+            return;
+          }
+          
+          console.log('Parsed data:', data);
           
           if (data.success) {
+            console.log('Student found:', data.nama);
             namaInput.value = data.nama;
-            namaInput.style.backgroundColor = '#e8f5e9'; // Light green to indicate auto-filled
-            namaInput.readOnly = true; // Make it read-only when auto-filled
+            namaInput.style.backgroundColor = '#e8f5e9';
+            namaInput.readOnly = true;
             
             if (kelasInput && data.kelas) {
               kelasInput.value = data.kelas;
               kelasInput.style.backgroundColor = '#e8f5e9';
             }
           } else {
-            // Student not found - allow manual entry
-            namaInput.style.backgroundColor = '#fff3cd'; // Light yellow warning
+            console.log('Student not found');
+            namaInput.style.backgroundColor = '#fff3cd';
             namaInput.readOnly = false;
             namaInput.placeholder = 'Student not found - Enter manually';
           }
@@ -1006,11 +884,11 @@
           console.error('Error fetching student data:', error);
           namaInput.style.backgroundColor = '';
           namaInput.readOnly = false;
+          namaInput.placeholder = 'Error - Enter manually';
         }
-      }, 500); // 500ms delay
+      }, 500);
     });
     
-    // Allow editing if user clicks on auto-filled name
     namaInput.addEventListener('click', function() {
       if (this.readOnly) {
         const confirmEdit = confirm('This name was auto-filled. Do you want to edit it?');
@@ -1020,11 +898,13 @@
         }
       }
     });
+  } else {
+    console.error('NIK or Nama input not found!', { NIKInput, namaInput });
   }
 
   // Calendar state
   let currentCalendarDate = new Date();
-  let selectedDateData = {}; // { 'YYYY-MM-DD': { date: 'YYYY-MM-DD', times: ['09:00-10:00', ...] } }
+  let selectedDateData = {};
   let currentSelectedDate = null;
   
   const availableTimeSlots = [
@@ -1039,27 +919,29 @@
     '17:00-18:00'
   ];
   
-  // Initialize calendar on page load
   window.addEventListener('DOMContentLoaded', function() {
     generateCalendar();
   });
+  
+  // Toggle Next button based on terms checkbox
+  function toggleNextButton() {
+    const checkbox = document.getElementById('termsCheckbox');
+    const nextButton = document.getElementById('nextButton');
+    nextButton.disabled = !checkbox.checked;
+  }
   
   // Generate calendar grid
   function generateCalendar() {
     const year = currentCalendarDate.getFullYear();
     const month = currentCalendarDate.getMonth();
     
-    // Update month/year display
     const monthNames = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
     document.getElementById('calendarMonthYear').textContent = `${monthNames[month]} ${year}`;
     
-    // Get first day of month and number of days
     const firstDay = new Date(year, month, 1);
     const lastDay = new Date(year, month + 1, 0);
     const daysInMonth = lastDay.getDate();
     const startingDayOfWeek = firstDay.getDay();
-    
-    // Get previous month's last days
     const prevMonthLastDay = new Date(year, month, 0).getDate();
     
     const calendarDates = document.getElementById('calendarDates');
@@ -1068,7 +950,6 @@
     const todayDate = new Date();
     todayDate.setHours(0, 0, 0, 0);
     
-    // Add previous month's trailing days
     for (let i = startingDayOfWeek - 1; i >= 0; i--) {
       const dateCell = document.createElement('div');
       dateCell.className = 'calendar-date other-month';
@@ -1076,7 +957,6 @@
       calendarDates.appendChild(dateCell);
     }
     
-    // Add current month's days
     for (let day = 1; day <= daysInMonth; day++) {
       const dateCell = document.createElement('div');
       dateCell.className = 'calendar-date';
@@ -1086,24 +966,20 @@
       cellDate.setHours(0, 0, 0, 0);
       const dateValue = `${year}-${String(month + 1).padStart(2, '0')}-${String(day).padStart(2, '0')}`;
       
-      // Check if date is today
       if (cellDate.getTime() === todayDate.getTime()) {
         dateCell.classList.add('today');
       }
       
-      // Check if date is in the past
       if (cellDate < todayDate) {
         dateCell.classList.add('disabled');
       } else {
         dateCell.dataset.date = dateValue;
         dateCell.onclick = function() { toggleDateSelection(this); };
         
-        // Check if date has bookings
         if (selectedDateData[dateValue] && selectedDateData[dateValue].times.length > 0) {
           dateCell.classList.add('selected');
         }
         
-        // Check if this is the currently active date
         if (currentSelectedDate === dateValue) {
           dateCell.classList.add('active');
         }
@@ -1112,9 +988,8 @@
       calendarDates.appendChild(dateCell);
     }
     
-    // Add next month's starting days to fill the grid
     const totalCells = calendarDates.children.length;
-    const remainingCells = 42 - totalCells; // 6 rows × 7 days
+    const remainingCells = 42 - totalCells;
     for (let i = 1; i <= remainingCells && i <= 14; i++) {
       const dateCell = document.createElement('div');
       dateCell.className = 'calendar-date other-month';
@@ -1123,22 +998,16 @@
     }
   }
   
-  // Toggle date selection - show time slot panel
   function toggleDateSelection(cell) {
     const date = cell.dataset.date;
     if (!date) return;
     
     currentSelectedDate = date;
-    
-    // Update visual state
     document.querySelectorAll('.calendar-date').forEach(c => c.classList.remove('active'));
     cell.classList.add('active');
-    
-    // Show time slot panel
     showTimeSlotPanel(date);
   }
   
-  // Show time slot panel for a specific date
   function showTimeSlotPanel(dateValue) {
     const panel = document.getElementById('timeSlotPanel');
     const header = document.getElementById('timeSlotHeader');
@@ -1148,8 +1017,6 @@
     const formatted = date.toLocaleDateString('en-US', { weekday: 'short', month: 'short', day: 'numeric', year: 'numeric' });
     
     header.textContent = `Select Time Slots for ${formatted}`;
-    
-    // Generate time slot checkboxes
     grid.innerHTML = '';
     const selectedTimes = selectedDateData[dateValue]?.times || [];
     
@@ -1184,7 +1051,6 @@
     panel.classList.add('active');
   }
   
-  // Toggle time slot selection for a date
   function toggleTimeSlot(dateValue, timeSlot, checked) {
     if (!selectedDateData[dateValue]) {
       selectedDateData[dateValue] = { date: dateValue, times: [] };
@@ -1199,13 +1065,11 @@
       if (index > -1) {
         selectedDateData[dateValue].times.splice(index, 1);
       }
-      // Remove date if no times selected
       if (selectedDateData[dateValue].times.length === 0) {
         delete selectedDateData[dateValue];
       }
     }
     
-    // Update item visual
     const items = document.querySelectorAll('.time-slot-item');
     items.forEach(item => {
       const cb = item.querySelector('input[type="checkbox"]');
@@ -1218,14 +1082,10 @@
       }
     });
     
-    // Update calendar cell visual
     updateCalendarCellState(dateValue);
-    
-    // Update booking summary
     updateBookingSummary();
   }
   
-  // Update calendar cell visual state based on time selections
   function updateCalendarCellState(dateValue) {
     const cells = document.querySelectorAll('.calendar-date');
     cells.forEach(cell => {
@@ -1239,7 +1099,6 @@
     });
   }
   
-  // Update booking summary display
   function updateBookingSummary() {
     const summary = document.getElementById('bookingSummary');
     const list = document.getElementById('bookingSummaryList');
@@ -1276,11 +1135,9 @@
     });
   }
   
-  // Remove date booking entirely
   function removeDateBooking(dateValue) {
     delete selectedDateData[dateValue];
     
-    // Update calendar cell
     const cells = document.querySelectorAll('.calendar-date');
     cells.forEach(cell => {
       if (cell.dataset.date === dateValue) {
@@ -1289,29 +1146,24 @@
       }
     });
     
-    // Update displays
     updateBookingSummary();
     
-    // If this was the current selected date, hide time panel
     if (currentSelectedDate === dateValue) {
       document.getElementById('timeSlotPanel').classList.remove('active');
       currentSelectedDate = null;
     }
   }
   
-  // Navigate to previous month
   function previousMonth() {
     currentCalendarDate.setMonth(currentCalendarDate.getMonth() - 1);
     generateCalendar();
   }
   
-  // Navigate to next month
   function nextMonth() {
     currentCalendarDate.setMonth(currentCalendarDate.getMonth() + 1);
     generateCalendar();
   }
   
-  // Helper function to check slot availability (reused)
   async function checkSlot(studio, tanggal, jam) {
     try {
       const response = await fetch(`/Avicenna/api.php?action=checkSlot&studio=${encodeURIComponent(studio)}&tanggal=${tanggal}&jam=${encodeURIComponent(jam)}`);
@@ -1319,38 +1171,17 @@
       return !data.booked;
     } catch (error) {
       console.error('Error checking slot:', error);
-      return true; // Allow if check fails
-    }
-  }
-
-  
-  // Toggle Next button based on terms checkbox
-  function toggleNextButton() {
-    const checkbox = document.getElementById('termsCheckbox');
-    const nextButton = document.getElementById('nextButton');
-    nextButton.disabled = !checkbox.checked;
-  }
-
-  // Helper function to check slot availability
-  async function checkSlot(studio, tanggal, jam) {
-    try {
-      const response = await fetch(`/Avicenna/api.php?action=checkSlot&studio=${encodeURIComponent(studio)}&tanggal=${tanggal}&jam=${encodeURIComponent(jam)}`);
-      const data = await response.json();
-      return !data.booked;
-    } catch (error) {
-      console.error('Error checking slot:', error);
-      return true; // Allow if check fails
+      return true;
     }
   }
 
   async function next() {
     const studio = document.getElementById('studio').value;
     const nama = document.getElementById('namaPendaftar') ? document.getElementById('namaPendaftar').value.trim() : '';
-    const nik = document.getElementById('nikPendaftar') ? document.getElementById('nikPendaftar').value.trim() : '';
+    const NIK = document.getElementById('NIKPendaftar') ? document.getElementById('NIKPendaftar').value.trim() : '';
     const kelas = document.getElementById('kelasPendaftaran') ? document.getElementById('kelasPendaftaran').value : '';
     const termsChecked = document.getElementById('termsCheckbox').checked;
 
-    // Validation
     if (!termsChecked) {
       alert('Please read and agree to the terms & conditions');
       return;
@@ -1366,7 +1197,7 @@
       return;
     }
 
-    if (!nik) {
+    if (!NIK) {
       alert('Please enter the ID number');
       return;
     }
@@ -1382,7 +1213,6 @@
       return;
     }
 
-    // Validate that all dates have at least one time slot
     for (const dateKey of dateKeys) {
       if (selectedDateData[dateKey].times.length === 0) {
         alert(`Please select at least one time slot for ${formatTanggalDisplay(dateKey)}`);
@@ -1390,14 +1220,12 @@
       }
     }
 
-    // Check ban status
-    const banStatus = await checkBan(nik);
+    const banStatus = await checkBan(NIK);
     if (banStatus.banned) {
       alert(`This ID is banned until ${formatTanggalDisplay(banStatus.until)} due to 3 cancellations without notice.`);
       return;
     }
 
-    // Check slot availability for all date-time combinations
     for (const dateKey of dateKeys) {
       for (const jam of selectedDateData[dateKey].times) {
         const slotAvailable = await checkSlot(studio, dateKey, jam);
@@ -1408,7 +1236,6 @@
       }
     }
 
-    // Prepare payload with per-date time selections
     const bookingDetails = [];
     dateKeys.forEach(dateKey => {
       selectedDateData[dateKey].times.forEach(time => {
@@ -1424,13 +1251,13 @@
       studio,
       bookingDetails,
       nama,
-      nik,
+      NIK,
       kelas
     };
 
     sessionStorage.setItem('bookingData', JSON.stringify(payload));
     sessionStorage.setItem('nama', nama);
-    sessionStorage.setItem('nik', nik);
+    sessionStorage.setItem('NIK', NIK);
     sessionStorage.setItem('kelas', kelas);
     window.location.href = 'confirm.html';
   }
@@ -1438,7 +1265,7 @@
 
 
   async function saveBookingsDirect(payload) {
-    const { studio, nama, nik, kelas, bookingDetails } = payload;
+    const { studio, nama, NIK, kelas, bookingDetails } = payload;
     
     if (!bookingDetails || !bookingDetails.length) {
       alert('No bookings to save');
@@ -1446,14 +1273,9 @@
     }
 
     try {
-      // Loop through all bookings
       for (const booking of bookingDetails) {
         const tanggal = booking.tanggal;
         const jam = booking.jam;
-        
-        console.log('Attempting to save booking for:', tanggal, jam);
-        console.log('Request URL:', '/Avicenna/api.php?action=addBooking');
-        console.log('Request data:', { studio, tanggal, jam, nama, nik, kelas });
         
         const response = await fetch('/Avicenna/api.php?action=addBooking', {
           method: 'POST',
@@ -1467,43 +1289,29 @@
             jam,
             nama,
             hp: '',
-            nik,
+            NIK,
             email: '',
             kelas,
             status: 'pending'
           })
         });
 
-        console.log('Response status:', response.status);
-        console.log('Response headers:', response.headers);
-
         if (!response.ok) {
           const errorText = await response.text();
           console.error('Failed to save booking:', response.status, response.statusText, errorText);
-          
-          let errorMessage = `Failed to save booking for ${tanggal} ${jam}\nError: ${response.status}`;
-          if (response.status === 405) {
-            errorMessage += '\nMethod Not Allowed - Please check server configuration';
-          } else if (errorText) {
-            errorMessage += ` - ${errorText}`;
-          }
-          
-          alert(errorMessage);
+          alert(`Failed to save booking for ${tanggal} ${jam}`);
           return false;
         }
 
         let result;
         try {
           const responseText = await response.text();
-          console.log('Response text:', responseText);
           result = JSON.parse(responseText);
         } catch (parseError) {
           console.error('Failed to parse response:', parseError);
           alert(`Failed to save booking for ${tanggal} ${jam}\nInvalid response from server`);
           return false;
         }
-
-        console.log('Response result:', result);
 
         if (result.error) {
           console.error('Error saving booking:', result.error);
@@ -1516,8 +1324,6 @@
           alert(`Failed to save booking for ${tanggal} ${jam}\nPlease try again`);
           return false;
         }
-        
-        console.log('Successfully saved booking for:', tanggal, jam);
       }
 
       return true;
@@ -1546,10 +1352,10 @@
     }
   }
 
-  async function checkBan(nik) {
-    if (!nik) return { banned: false };
+  async function checkBan(NIK) {
+    if (!NIK) return { banned: false };
     try {
-      const response = await fetch(`/Avicenna/api.php?action=checkBan&nik=${encodeURIComponent(nik)}`);
+      const response = await fetch(`/Avicenna/api.php?action=checkBan&NIK=${encodeURIComponent(NIK)}`);
       const data = await response.json();
       return data;
     } catch (error) {

@@ -1,0 +1,1244 @@
+<!DOCTYPE html>
+<html lang="en"> <!-- connected to My ALAZKA -->
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Choose Schedule</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --primary: #dc2626;
+      --primary-dark: #991b1b;
+      --primary-light: #ef4444;
+      --secondary: #ea580c;
+      --surface: #1a1a1a;
+      --surface-glass: rgba(20, 20, 20, 0.85);
+      --text-primary: #f5f5f5;
+      --text-secondary: #a3a3a3;
+      --border: #404040;
+      --shadow: 0 20px 25px -5px rgb(220 38 38 / 0.3), 0 8px 10px -6px rgb(0 0 0 / 0.5);
+      --shadow-xl: 0 25px 50px -12px rgb(0 0 0 / 0.7);
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body { 
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+      background: 
+        linear-gradient(135deg, rgba(10, 10, 10, 0.9) 0%, rgba(26, 5, 5, 0.85) 25%, rgba(45, 10, 10, 0.8) 50%, rgba(26, 10, 0, 0.85) 75%, rgba(10, 10, 10, 0.9) 100%),
+        repeating-linear-gradient(45deg, transparent, transparent 10px, rgba(220, 38, 38, 0.05) 10px, rgba(220, 38, 38, 0.05) 20px),
+        url('https://alazka.sch.id/Avicenna/image/Avicenna.jpeg');
+      background-size: 100%, 40px 40px, cover;
+      background-position: center, center, center;
+      background-attachment: fixed;
+      background-blend-mode: multiply, overlay, normal;
+      min-height: 100vh;
+      padding: 20px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+      overflow-x: hidden;
+      overflow-y: auto;
+    }
+    
+    body::before {
+      content: '';
+      position: fixed;
+      top: -50%;
+      right: -50%;
+      width: 200%;
+      height: 200%;
+      background: 
+        radial-gradient(circle at 20% 50%, rgba(220, 38, 38, 0.2) 0%, transparent 30%),
+        radial-gradient(circle at 80% 80%, rgba(234, 88, 12, 0.2) 0%, transparent 30%),
+        radial-gradient(circle at 40% 20%, rgba(153, 27, 27, 0.25) 0%, transparent 30%),
+        radial-gradient(circle at 70% 40%, rgba(120, 53, 15, 0.15) 0%, transparent 30%),
+        radial-gradient(circle at 30% 80%, rgba(64, 64, 64, 0.15) 0%, transparent 30%);
+      animation: float 15s ease-in-out infinite;
+      pointer-events: none;
+      mix-blend-mode: screen;
+    }
+
+    body::after {
+      content: '';
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      height: 300px;
+      background: 
+        linear-gradient(180deg, transparent 0%, rgba(220, 38, 38, 0.15) 100%);
+      pointer-events: none;
+    }
+    
+    @keyframes float {
+      0%, 100% { transform: translate(0, 0) rotate(0deg) scale(1); }
+      25% { transform: translate(50px, -40px) rotate(3deg) scale(1.1); }
+      50% { transform: translate(-40px, 30px) rotate(-3deg) scale(0.9); }
+      75% { transform: translate(30px, 40px) rotate(2deg) scale(1.05); }
+    }
+
+    .container {
+      max-width: 480px;
+      width: 100%;
+      position: relative;
+      z-index: 1;
+    }
+    
+    /* Floating decorative shapes */
+    .container::before,
+    .container::after {
+      content: '';
+      position: absolute;
+      border-radius: 50%;
+      z-index: 0;
+      animation: floatShape 8s ease-in-out infinite;
+    }
+    
+    .container::before {
+      width: 100px;
+      height: 100px;
+      background: linear-gradient(135deg, rgba(220, 38, 38, 0.4), rgba(153, 27, 27, 0.4));
+      top: -30px;
+      right: -30px;
+      filter: blur(30px);
+      animation-delay: -2s;
+    }
+    
+    .container::after {
+      width: 80px;
+      height: 80px;
+      background: linear-gradient(135deg, rgba(234, 88, 12, 0.4), rgba(120, 53, 15, 0.4));
+      bottom: -20px;
+      left: -20px;
+      filter: blur(25px);
+      animation-delay: -4s;
+    }
+    
+    @keyframes floatShape {
+      0%, 100% { transform: translate(0, 0) scale(1); }
+      50% { transform: translate(20px, -20px) scale(1.2); }
+    }
+
+    .card {
+      background: var(--surface-glass);
+      backdrop-filter: blur(40px) saturate(180%);
+      -webkit-backdrop-filter: blur(40px) saturate(180%);
+      border-radius: 32px;
+      padding: 48px 40px;
+      box-shadow: 
+        var(--shadow-xl),
+        0 0 0 1px rgba(220, 38, 38, 0.3) inset,
+        0 0 60px rgba(220, 38, 38, 0.3),
+        0 0 100px rgba(234, 88, 12, 0.2);
+      border: 2px solid rgba(220, 38, 38, 0.4);
+      animation: slideUp 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+      position: relative;
+      overflow: visible;
+    }
+    
+    .card::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 3px;
+      background: linear-gradient(90deg, 
+        #dc2626 0%, 
+        #ea580c 20%,
+        #f59e0b 40%,
+        #ea580c 60%,
+        #dc2626 80%,
+        #991b1b 100%);
+      background-size: 200% 100%;
+      animation: gradientShift 3s linear infinite;
+      border-radius: 32px 32px 0 0;
+    }
+    
+    .card::after {
+      content: '🔥';
+      position: absolute;
+      top: 20px;
+      right: 30px;
+      font-size: 24px;
+      animation: sparkle 2s ease-in-out infinite;
+      opacity: 0.8;
+    }
+    
+    @keyframes gradientShift {
+      0% { background-position: 0% 50%; }
+      100% { background-position: 200% 50%; }
+    }
+    
+    @keyframes sparkle {
+      0%, 100% { transform: scale(1) rotate(0deg); opacity: 0.7; }
+      50% { transform: scale(1.3) rotate(20deg); opacity: 1; }
+    }
+
+    @keyframes slideUp {
+      from {
+        opacity: 0;
+        transform: translateY(40px) scale(0.95);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+      }
+    }
+
+    .header {
+      text-align: center;
+      margin-bottom: 48px;
+      position: relative;
+    }
+    
+    .header::before,
+    .header::after {
+      content: '�';
+      position: absolute;
+      font-size: 30px;
+      opacity: 0.2;
+      animation: musicNote 3s ease-in-out infinite;
+    }
+    
+    .header::before {
+      top: 10px;
+      left: 10px;
+      animation-delay: 0s;
+    }
+    
+    .header::after {
+      content: '⚡';
+      top: 20px;
+      right: 10px;
+      animation-delay: 1.5s;
+    }
+    
+    @keyframes musicNote {
+      0%, 100% { transform: translateY(0) rotate(-5deg); }
+      50% { transform: translateY(-10px) rotate(5deg); }
+    }
+
+    .logo {
+      width: 80px;
+      height: auto;
+      object-fit: contain;
+      margin-bottom: 20px;
+      padding: 18px;
+      background: linear-gradient(135deg, 
+        rgba(40, 40, 40, 0.95) 0%, 
+        rgba(26, 26, 26, 0.9) 100%);
+      backdrop-filter: blur(10px);
+      border-radius: 24px;
+      box-shadow: 
+        0 15px 50px -15px rgba(220, 38, 38, 0.6),
+        0 10px 40px -10px rgba(234, 88, 12, 0.4),
+        inset 0 2px 0 rgba(220, 38, 38, 0.3),
+        0 0 0 3px rgba(220, 38, 38, 0.2);
+      border: 2px solid rgba(220, 38, 38, 0.5);
+      animation: logoReveal 1s cubic-bezier(0.16, 1, 0.3, 1), logoPulse 3s ease-in-out infinite;
+      transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+      position: relative;
+    }
+    
+    .logo::before {
+      content: '';
+      position: absolute;
+      inset: -5px;
+      border-radius: 26px;
+      padding: 2px;
+      background: linear-gradient(135deg, #dc2626, #ea580c, #f59e0b, #dc2626);
+      -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+      mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+      -webkit-mask-composite: xor;
+      mask-composite: exclude;
+      opacity: 0;
+      transition: opacity 0.3s;
+    }
+    
+    .logo:hover {
+      transform: scale(1.1) rotate(8deg);
+      box-shadow: 
+        0 20px 60px -15px rgba(220, 38, 38, 0.8),
+        0 15px 50px -10px rgba(234, 88, 12, 0.6),
+        inset 0 2px 0 rgba(220, 38, 38, 0.4);
+    }
+    
+    .logo:hover::before {
+      opacity: 0.6;
+    }
+
+    @keyframes logoReveal {
+      from {
+        opacity: 0;
+        transform: scale(0.3) rotate(-20deg);
+      }
+      to {
+        opacity: 1;
+        transform: scale(1) rotate(0deg);
+      }
+    }
+    
+    @keyframes logoPulse {
+      0%, 100% { 
+        box-shadow: 
+          0 15px 50px -15px rgba(220, 38, 38, 0.6),
+          0 10px 40px -10px rgba(234, 88, 12, 0.4),
+          inset 0 2px 0 rgba(220, 38, 38, 0.3),
+          0 0 0 3px rgba(220, 38, 38, 0.2);
+      }
+      50% { 
+        box-shadow: 
+          0 20px 60px -15px rgba(220, 38, 38, 0.8),
+          0 15px 50px -10px rgba(234, 88, 12, 0.6),
+          inset 0 2px 0 rgba(220, 38, 38, 0.4),
+          0 0 0 5px rgba(220, 38, 38, 0.3);
+      }
+    }
+
+    .header h1 {
+      font-size: 34px;
+      font-weight: 900;
+      background: linear-gradient(135deg, #dc2626 0%, #ea580c 50%, #f59e0b 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      margin-bottom: 12px;
+      letter-spacing: -1px;
+      line-height: 1.2;
+      text-shadow: 0 2px 10px rgba(220, 38, 38, 0.3);
+      position: relative;
+      animation: titleShine 3s ease-in-out infinite;
+      filter: drop-shadow(0 0 20px rgba(220, 38, 38, 0.5));
+    }
+    
+    @keyframes titleShine {
+      0%, 100% { filter: brightness(1); }
+      50% { filter: brightness(1.2); }
+    }
+
+    .header p {
+      color: var(--text-secondary);
+      font-size: 15px;
+      font-weight: 500;
+      line-height: 1.6;
+      background: linear-gradient(135deg, rgba(220, 38, 38, 0.15), rgba(234, 88, 12, 0.15));
+      padding: 8px 20px;
+      border-radius: 20px;
+      display: inline-block;
+      border: 1px solid rgba(220, 38, 38, 0.3);
+    }
+
+    .form-group {
+      margin-bottom: 24px;
+      position: relative;
+    }
+    
+    .form-group::before {
+      content: '';
+      position: absolute;
+      left: -15px;
+      top: 50%;
+      transform: translateY(-50%);
+      width: 4px;
+      height: 60%;
+      background: linear-gradient(180deg, #dc2626, #ea580c);
+      border-radius: 10px;
+      opacity: 0.5;
+    }
+    
+    .form-group label {
+      display: block;
+      color: var(--text-primary);
+      font-size: 14px;
+      font-weight: 700;
+      margin-bottom: 12px;
+      letter-spacing: 0.3px;
+      text-transform: uppercase;
+      background: linear-gradient(135deg, #dc2626, #ea580c);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      position: relative;
+      padding-left: 28px;
+    }
+    
+    .form-group label::before {
+      content: '▶';
+      position: absolute;
+      left: 0;
+      color: #dc2626;
+      font-size: 12px;
+      animation: pulse 2s ease-in-out infinite;
+    }
+    
+    @keyframes pulse {
+      0%, 100% { transform: scale(1); opacity: 0.7; }
+      50% { transform: scale(1.3); opacity: 1; }
+    }
+
+    .studio-display {
+      background: linear-gradient(135deg, #dc2626 0%, #ea580c 50%, #f59e0b 100%);
+      color: white;
+      padding: 20px;
+      border-radius: 18px;
+      font-size: 18px;
+      font-weight: 800;
+      text-align: center;
+      margin-bottom: 8px;
+      box-shadow: 
+        0 15px 40px -15px rgba(220, 38, 38, 0.8),
+        0 0 0 3px rgba(234, 88, 12, 0.3) inset,
+        0 0 60px rgba(220, 38, 38, 0.4);
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      position: relative;
+      overflow: hidden;
+    }
+    
+    .studio-display::before {
+      content: '🎸';
+      position: absolute;
+      left: 20px;
+      font-size: 24px;
+      animation: bounce 2s ease-in-out infinite;
+    }
+    
+    .studio-display::after {
+      content: '🔥';
+      position: absolute;
+      right: 20px;
+      font-size: 24px;
+      animation: bounce 2s ease-in-out infinite;
+      animation-delay: 1s;
+    }
+    
+    @keyframes bounce {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-5px); }
+    }
+
+    input[type="date"],
+    select {
+      width: 100%;
+      padding: 18px 20px;
+      border: 3px solid transparent;
+      background: 
+        linear-gradient(rgba(30, 30, 30, 0.8), rgba(30, 30, 30, 0.8)) padding-box,
+        linear-gradient(135deg, #dc2626, #ea580c, #f59e0b) border-box;
+      border-radius: 18px;
+      font-family: 'Inter', sans-serif;
+      font-size: 15px;
+      font-weight: 600;
+      transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+      color: var(--text-primary);
+      box-shadow: 0 5px 20px rgba(0, 0, 0, 0.3);
+      position: relative;
+    }
+      
+    
+
+    input[type="date"]:focus,
+    select:focus {
+      outline: none;
+      transform: translateY(-3px) scale(1.02);
+      box-shadow: 
+        0 10px 40px rgba(220, 38, 38, 0.5),
+        0 0 0 5px rgba(220, 38, 38, 0.2),
+        0 0 60px rgba(220, 38, 38, 0.3);
+    }
+    
+    input[type="date"]:hover:not(:focus),
+    select:hover:not(:focus) {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+    }
+
+    select {
+      cursor: pointer;
+      appearance: none;
+      background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23dc2626' stroke-width='3' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='6 9 12 15 18 9'%3e%3c/polyline%3e%3c/svg%3e");
+      background-repeat: no-repeat;
+      background-position: right 16px center;
+      background-size: 20px;
+      padding-right: 45px;
+    }
+
+    .terms-container {
+      margin: 30px 0;
+      padding: 25px;
+      background: rgba(30, 30, 30, 0.8);
+      border-radius: 18px;
+      border: 2px solid transparent;
+      background-image: linear-gradient(rgba(30, 30, 30, 0.8), rgba(30, 30, 30, 0.8)), 
+                        linear-gradient(135deg, #dc2626 0%, #ea580c 50%, #f59e0b 100%);
+      background-origin: border-box;
+      background-clip: padding-box, border-box;
+      box-shadow: 0 15px 40px rgba(220, 38, 38, 0.15),
+                  inset 0 2px 20px rgba(220, 38, 38, 0.1);
+    }
+
+    .terms-container h3 {
+      color: #dc2626;
+      margin-bottom: 15px;
+      font-family: 'Poppins', sans-serif;
+      font-size: 18px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      text-shadow: 0 0 20px rgba(220, 38, 38, 0.5);
+    }
+
+    .terms-box {
+      background: rgba(10, 10, 10, 0.6);
+      border: 1px solid rgba(220, 38, 38, 0.3);
+      border-radius: 12px;
+      padding: 20px;
+      max-height: 150px;
+      overflow-y: auto;
+      margin-bottom: 15px;
+      font-size: 13px;
+      line-height: 1.8;
+      color: rgba(255, 255, 255, 0.9);
+    }
+
+    .terms-box::-webkit-scrollbar {
+      width: 8px;
+    }
+
+    .terms-box::-webkit-scrollbar-track {
+      background: rgba(0, 0, 0, 0.4);
+      border-radius: 4px;
+    }
+
+    .terms-box::-webkit-scrollbar-thumb {
+      background: linear-gradient(135deg, #dc2626 0%, #ea580c 100%);
+      border-radius: 4px;
+      box-shadow: 0 0 10px rgba(220, 38, 38, 0.5);
+    }
+
+    .terms-box::-webkit-scrollbar-thumb:hover {
+      background: linear-gradient(135deg, #ea580c 0%, #f59e0b 100%);
+    }
+
+    .terms-box ol {
+      margin: 0;
+      padding-left: 20px;
+    }
+
+    .terms-box li {
+      margin-bottom: 8px;
+      color: rgba(255, 255, 255, 0.9);
+    }
+
+    .terms-checkbox {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      cursor: pointer;
+    }
+
+    .terms-checkbox input[type="checkbox"] {
+      width: 20px;
+      height: 20px;
+      cursor: pointer;
+      accent-color: #dc2626;
+      border: 2px solid rgba(220, 38, 38, 0.5);
+    }
+
+    .terms-checkbox label {
+      color: rgba(255, 255, 255, 0.9);
+      font-size: 14px;
+      cursor: pointer;
+      user-select: none;
+    }
+
+    .button-group {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+      margin-top: 40px;
+    }
+
+    button {
+      padding: 18px 28px;
+      border: none;
+      border-radius: 18px;
+      font-family: 'Inter', sans-serif;
+      font-size: 16px;
+      font-weight: 700;
+      cursor: pointer;
+      transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+      letter-spacing: 0.5px;
+      text-transform: uppercase;
+      position: relative;
+      overflow: hidden;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+    }
+    
+    button::before {
+      content: '';
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      width: 0;
+      height: 0;
+      border-radius: 50%;
+      background: rgba(255, 255, 255, 0.5);
+      transform: translate(-50%, -50%);
+      transition: width 0.6s, height 0.6s;
+    }
+    
+    button::after {
+      content: '🤘';
+      position: absolute;
+      right: 15px;
+      font-size: 18px;
+      opacity: 0;
+      transition: all 0.3s;
+    }
+    
+    button:hover::after {
+      opacity: 1;
+      right: 20px;
+    }
+    
+    button:active::before {
+      width: 400px;
+      height: 400px;
+    }
+
+    button:active::before {
+      width: 300px;
+      height: 300px;
+    }
+
+    .btn-next {
+      background: linear-gradient(135deg, #dc2626 0%, #ea580c 50%, #f59e0b 100%);
+      color: white;
+      box-shadow: 
+        0 15px 40px -15px rgba(220, 38, 38, 0.8),
+        0 0 0 3px rgba(234, 88, 12, 0.3),
+        0 0 60px rgba(220, 38, 38, 0.4);
+      grid-column: 1 / -1;
+      animation: buttonGlow 3s ease-in-out infinite;
+    }
+    
+    @keyframes buttonGlow {
+      0%, 100% { 
+        box-shadow: 
+          0 15px 40px -15px rgba(220, 38, 38, 0.8),
+          0 0 0 3px rgba(234, 88, 12, 0.3),
+          0 0 60px rgba(220, 38, 38, 0.4);
+      }
+      50% { 
+        box-shadow: 
+          0 20px 50px -15px rgba(220, 38, 38, 1),
+          0 0 0 5px rgba(234, 88, 12, 0.5),
+          0 0 80px rgba(220, 38, 38, 0.6);
+      }
+    }
+
+    .btn-next:hover {
+      transform: translateY(-4px) scale(1.02);
+      box-shadow: 
+        0 20px 60px -15px rgba(220, 38, 38, 0.9),
+        0 0 0 5px rgba(234, 88, 12, 0.4),
+        0 0 100px rgba(220, 38, 38, 0.5);
+    }
+    
+    .btn-next:active {
+      transform: translateY(-1px) scale(0.98);
+    }
+
+    .btn-back {
+      background: linear-gradient(135deg, rgba(40, 40, 40, 0.9), rgba(30, 30, 30, 0.9));
+      backdrop-filter: blur(10px);
+      color: var(--text-primary);
+      border: 3px solid transparent;
+      background: 
+        linear-gradient(rgba(30, 30, 30, 0.9), rgba(30, 30, 30, 0.9)) padding-box,
+        linear-gradient(135deg, #dc2626, #ea580c) border-box;
+      font-weight: 700;
+    }
+
+    .btn-back:hover {
+      transform: translateY(-4px) scale(1.02);
+      box-shadow: 0 15px 40px rgba(220, 38, 38, 0.3);
+    }
+
+    .info-box {
+      background: linear-gradient(135deg, 
+        rgba(99, 102, 241, 0.08) 0%, 
+        rgba(139, 92, 246, 0.08) 100%);
+      border-left: 4px solid var(--primary);
+      padding: 18px 20px;
+      border-radius: 16px;
+      margin-top: 32px;
+      font-size: 13px;
+      color: var(--text-secondary);
+      line-height: 1.7;
+      backdrop-filter: blur(10px);
+    }
+    
+    .info-box strong {
+      color: var(--text-primary);
+    }
+
+    /* Notification toast */
+    .notification-toast {
+      position: fixed;
+      top: 50%;
+      left: 50%;
+      z-index: 9999;
+      background: white;
+      border-left: 5px solid #ef4444;
+      box-shadow: var(--shadow-xl);
+      padding: 20px 24px;
+      border-radius: 20px;
+      transform: translate(-50%, -60%);
+      opacity: 0;
+      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+      max-width: 90vw;
+      width: 360px;
+      font-size: 14px;
+      font-weight: 500;
+      color: var(--text-primary);
+      text-align: left;
+    }
+    .notification-toast.show {
+      transform: translate(-50%, -50%);
+      opacity: 1;
+    }
+    .notification-toast .notif-content strong { 
+      display: block; 
+      margin-bottom: 6px;
+      font-weight: 700;
+    }
+    .notification-toast .close-btn {
+      background: #ef4444;
+      color: white;
+      border: none;
+      padding: 8px 16px;
+      border-radius: 10px;
+      cursor: pointer;
+      margin-top: 12px;
+      font-family: 'Inter', sans-serif;
+      font-weight: 600;
+      font-size: 13px;
+      transition: all 0.2s;
+    }
+    .notification-toast .close-btn:hover {
+      background: #dc2626;
+      transform: scale(1.05);
+    }
+    
+    @media (max-width: 480px) {
+      .card {
+        padding: 32px 24px;
+        border-radius: 24px;
+      }
+      
+      .header h1 {
+        font-size: 28px;
+      }
+      
+      button {
+        padding: 14px 20px;
+        font-size: 14px;
+      }
+      
+      .notification-toast {
+        width: calc(100% - 40px);
+      }
+    }
+    
+    .notification-toast.success {
+      border-left-color: #27ae60;
+    }
+    .notification-toast.success .close-btn {
+      background: #27ae60;
+    }
+  </style>
+</head>
+<body>
+
+<div class="container">
+  <div class="card">
+    <div class="header">
+      <img src="https://alazka.sch.id/Avicenna/image/Avicenna.jpeg" alt="Al Azhar Logo" class="logo">
+      <h1>Choose Schedule</h1>
+      <p>Select your preferred date and time</p>
+    </div>
+
+    <div class="form-group">
+      <label for="studio">Selected Studio</label>
+      <select id="studio" required>
+        <option value="">-- Select Studio --</option>
+        <option value="Studio 1">Studio 1 - Capacity 5 people (Recording Studio)</option>
+        <option value="Studio 2">Studio 2 - Capacity 6 people (Acoustic Guitar Studio)</option>
+        <option value="Studio 3">Studio 3 - Capacity 6 people (Drum Studio)</option>
+        <option value="Studio 4">Studio 4 - Capacity 6 people (Electric Guitar Studio)</option>
+        <option value="Studio 5">Studio 5 - Capacity 6 people (Piano Studio)</option>
+        <option value="Studio 6">Studio 6 - Capacity 10 people (Band Studio)</option>
+        <option value="Studio 7">Studio 7 - Capacity 10 people (Band Studio)</option>
+      </select>
+    </div>
+
+    <div class="form-group">
+      <label for="tanggalMulai">Start Date</label>
+      <input type="date" id="tanggalMulai" required>
+    </div>
+
+    <div class="form-group">
+      <label for="tanggalSelesai">End Date</label>
+      <input type="date" id="tanggalSelesai" required>
+    </div>
+
+    <div class="form-group">
+      <label for="namaPendaftar">Registrant Name</label> <!-- Add ID, blacklist 1 month by ID -->
+      <input type="text" id="namaPendaftar" placeholder="Enter your name" style="width:100%; padding:14px; border:2px solid #e0e0e0; border-radius:12px; font-size:16px;" required>
+    </div>
+
+    <div class="form-group">
+      <label for="nikPendaftar">ID Number (NIK)</label>
+      <input type="text" id="nikPendaftar" placeholder="Enter ID number" style="width:100%; padding:14px; border:2px solid #e0e0e0; border-radius:12px; font-size:16px;" required>
+    </div>
+
+    <div class="form-group">
+      <label for="kelasPendaftaran">Class Registration</label>
+      <select id="kelasPendaftaran" required style="width:100%; padding:14px; border:2px solid #e0e0e0; border-radius:12px; font-size:16px;">
+        <option value="">-- Select Class --</option>
+        
+        <optgroup label="SD (Elementary School)">
+          <option value="SD 1A">1A</option>
+          <option value="SD 1B">1B</option>
+          <option value="SD 1C">1C</option>
+          <option value="SD 1D">1D</option>
+          <option value="SD 2A">2A</option>
+          <option value="SD 2B">2B</option>
+          <option value="SD 2C">2C</option>
+          <option value="SD 2D">2D</option>
+          <option value="SD 3A">3A</option>
+          <option value="SD 3B">3B</option>
+          <option value="SD 3C">3C</option>
+          <option value="SD 3D">3D</option>
+          <option value="SD 3E">3E</option>
+          <option value="SD 4A">4A</option>
+          <option value="SD 4B">4B</option>
+          <option value="SD 4C">4C</option>
+          <option value="SD 4D">4D</option>
+          <option value="SD 5A">5A</option>
+          <option value="SD 5B">5B</option>
+          <option value="SD 5C">5C</option>
+          <option value="SD 5D">5D</option>
+          <option value="SD 6A">6A</option>
+          <option value="SD 6B">6B</option>
+          <option value="SD 6C">6C</option>
+          <option value="SD 6D">6D</option>
+        </optgroup>
+        
+        <optgroup label="SMP (Junior High School)">
+          <option value="SMP 7.1">7.1</option>
+          <option value="SMP 7.2">7.2</option>
+          <option value="SMP 7.3">7.3</option>
+          <option value="SMP 7.4">7.4</option>
+          <option value="SMP 8.1">8.1</option>
+          <option value="SMP 8.2">8.2</option>
+          <option value="SMP 8.3">8.3</option>
+          <option value="SMP 9.1">9.1</option>
+          <option value="SMP 9.2">9.2</option>
+          <option value="SMP 9.3">9.3</option>
+          <option value="SMP 9.4">9.4</option>
+          <option value="SMP SKS 10">SKS 10</option>
+        </optgroup>
+        
+        <optgroup label="SMA (Senior High School)">
+          <option value="SMA 10A">10A</option>
+          <option value="SMA 10B">10B</option>
+          <option value="SMA 10C">10C</option>
+          <option value="SMA 10D">10D</option>
+          <option value="SMA 10E">10E</option>
+          <option value="SMA 11A">11A</option>
+          <option value="SMA 11B">11B</option>
+          <option value="SMA 11C">11C</option>
+          <option value="SMA 11D">11D</option>
+          <option value="SMA 11E">11E</option>
+          <option value="SMA 11F">11F</option>
+          <option value="SMA 12A">12A</option>
+          <option value="SMA 12B">12B</option>
+          <option value="SMA 12C">12C</option>
+          <option value="SMA 12D">12D</option>
+          <option value="SMA 12E">12E</option>
+          <option value="SMA SKS 6">SKS 6</option>
+        </optgroup>
+        
+        <optgroup label="Other">
+          <option value="Umum">General / Public</option>
+        </optgroup>
+      </select>
+    </div>
+
+    <div class="form-group">
+      <label for="jam">Session Time</label>
+      <select id="jam" required>
+        <option value="">-- Select Time --</option>
+        <option value="09:00-10:00">09:00 - 10:00</option>
+        <option value="10:00-11:00">10:00 - 11:00</option>
+        <option value="11:00-12:00">11:00 - 12:00</option>
+        <option value="12:00-13:00">12:00 - 13:00</option>
+        <option value="13:00-14:00">13:00 - 14:00</option>
+        <option value="14:00-15:00">14:00 - 15:00</option>
+        <option value="15:00-16:00">15:00 - 16:00</option>
+        <option value="16:00-17:00">16:00 - 17:00</option>
+        <option value="17:00-18:00">17:00 - 18:00</option>
+      </select>
+    </div>
+
+    <div class="terms-container">
+      <h3>🔥 Terms and Conditions</h3>
+      <div class="terms-box">
+        <ol>
+          <li>Studio bookings must be made at least 1 day in advance.</li>
+          <li>Please arrive 15 minutes before the scheduled time to set up equipment.</li>
+          <li>The maximum booking duration is 8 hours per session. For longer needs, please book an additional session.</li>
+          <li>Equipment must be returned in its original condition. Damage will be charged according to the repair costs.</li>
+          <li>Food and beverages are only allowed in designated areas.</li>
+          <li>Smoking and alcohol are strictly prohibited in the studio area.</li>
+          <li>Cancellations must be made at least 24 hours before the session. Late cancellations will be recorded.</li>
+          <li>3 cancellations without notice will result in a 1-month ban.</li>
+          <li>Users are responsible for their personal belongings. Management is not liable for any loss.</li>
+          <li>By booking, you agree to comply with all applicable studio rules and regulations.</li>
+        </ol>
+      </div>
+      <div class="terms-checkbox">
+        <input type="checkbox" id="termsCheckbox" onchange="toggleNextButton()">
+        <label for="termsCheckbox">I have read and agree to the Terms and Conditions above</label>
+      </div>
+    </div>
+
+    <div class="button-group">
+      <button class="btn-back" onclick="goBack()">← Back</button>
+      <button class="btn-back" onclick="viewLiveDisplay()" style="background: linear-gradient(135deg, #2ecc71 0%, #27ae60 100%); color: white; border: none;">📺 View Live Display</button>
+      <button class="btn-next" id="nextButton" onclick="next()" disabled>Next →</button>
+    </div>
+
+    <div class="info-box">
+      ℹ️ Make sure the selected date and time fit your needs. You can change them later if necessary.
+    </div>
+  </div>
+</div>
+
+<script>
+  // Toggle next button based on terms checkbox
+  function toggleNextButton() {
+    const checkbox = document.getElementById('termsCheckbox');
+    const nextButton = document.getElementById('nextButton');
+    nextButton.disabled = !checkbox.checked;
+  }
+
+  // Set studio dari sessionStorage jika ada (temporary data)
+  const storedStudio = sessionStorage.getItem('studio');
+  if (storedStudio) {
+    document.getElementById('studio').value = storedStudio;
+  }
+  const storedNama = sessionStorage.getItem('nama');
+  if (storedNama && document.getElementById('namaPendaftar')) {
+    document.getElementById('namaPendaftar').value = storedNama;
+  }
+  const storedNik = sessionStorage.getItem('nik');
+  if (storedNik && document.getElementById('nikPendaftar')) {
+    document.getElementById('nikPendaftar').value = storedNik;
+  }
+  const storedKelas = sessionStorage.getItem('kelas');
+  if (storedKelas && document.getElementById('kelasPendaftaran')) {
+    document.getElementById('kelasPendaftaran').value = storedKelas;
+  }
+
+  // Set minimum date to today for both start and end date
+  const today = new Date().toISOString().split('T')[0];
+  
+  document.getElementById('tanggalMulai').min = today;
+  document.getElementById('tanggalSelesai').min = today;
+  
+  // Update end date min when start date changes
+  document.getElementById('tanggalMulai').addEventListener('change', function() {
+    document.getElementById('tanggalSelesai').min = this.value;
+    if (document.getElementById('tanggalSelesai').value && document.getElementById('tanggalSelesai').value < this.value) {
+      document.getElementById('tanggalSelesai').value = this.value;
+    }
+  });
+
+  async function next() {
+    const studio = document.getElementById('studio').value;
+    const tanggalMulai = document.getElementById('tanggalMulai').value;
+    const tanggalSelesai = document.getElementById('tanggalSelesai').value;
+    const jam = document.getElementById('jam').value;
+    const nama = document.getElementById('namaPendaftar') ? document.getElementById('namaPendaftar').value.trim() : '';
+    const nik = document.getElementById('nikPendaftar') ? document.getElementById('nikPendaftar').value.trim() : '';
+    const kelas = document.getElementById('kelasPendaftaran') ? document.getElementById('kelasPendaftaran').value : '';
+
+    const termsCheckbox = document.getElementById('termsCheckbox');
+    if (!termsCheckbox.checked) {
+      alert('Please accept the Terms and Conditions before proceeding');
+      return;
+    }
+
+    if (!studio || !tanggalMulai || !tanggalSelesai || !jam) {
+      alert('Please select studio, start date, end date, and time first');
+      return;
+    }
+    
+    if (tanggalMulai > tanggalSelesai) {
+      alert('End date must be after or equal to start date');
+      return;
+    }
+
+    if (!nama) {
+      alert('Please enter the registrant name');
+      return;
+    }
+
+    if (!nik) {
+      alert('Please enter the ID number');
+      return;
+    }
+
+    if (!kelas) {
+      alert('Please select class registration');
+      return;
+    }
+
+    const banStatus = await checkBan(nik);
+    if (banStatus.banned) {
+      alert(`This ID is banned until ${formatTanggalDisplay(banStatus.until)} due to 3 cancellations without notice.`);
+      return;
+    }
+
+    // Cek apakah ada booking yang conflict untuk setiap tanggal dalam range
+    const startDate = new Date(tanggalMulai + 'T00:00:00');
+    const endDate = new Date(tanggalSelesai + 'T00:00:00');
+    
+    // Generate all dates in range
+    const dates = [];
+    for (let d = new Date(startDate); d <= endDate; d.setDate(d.getDate() + 1)) {
+      dates.push(d.toISOString().split('T')[0]);
+    }
+    
+    // Check conflicts for all dates
+    for (const date of dates) {
+      const isBooked = await isTimeSlotBooked(studio, date, jam);
+      if (isBooked) {
+        showBookingConflictNotification(studio, date, jam);
+        return;
+      }
+    }
+
+    const saved = await saveBookingsDirect({
+      studio,
+      tanggalMulai,
+      tanggalSelesai,
+      jam,
+      nama,
+      nik,
+      kelas
+    });
+
+    if (!saved) {
+      return;
+    }
+
+    showSaveSuccessNotification('✅ Booking berhasil disimpan. Mengalihkan...');
+    const params = new URLSearchParams({
+      studio,
+      tanggalMulai,
+      tanggalSelesai,
+      jam,
+      nama,
+      nik,
+      kelas
+    });
+
+    setTimeout(() => {
+      window.location.href = `confirm.html?${params.toString()}`;
+    }, 900);
+  }
+
+
+
+  async function saveBookingsDirect(payload) {
+    const { studio, tanggalMulai, tanggalSelesai, jam, nama, nik, kelas } = payload;
+    const startDate = new Date(tanggalMulai + 'T00:00:00');
+    const endDate = new Date(tanggalSelesai + 'T00:00:00');
+
+    if (isNaN(startDate) || isNaN(endDate)) {
+      alert('Invalid date range');
+      return false;
+    }
+
+    const dates = [];
+    for (let d = new Date(startDate); d <= endDate; d.setDate(d.getDate() + 1)) {
+      dates.push(d.toISOString().split('T')[0]);
+    }
+
+    if (!dates.length) {
+      alert('No dates to save');
+      return false;
+    }
+
+    try {
+      for (const tanggal of dates) {
+        const response = await fetch('/Avicenna/api.php?action=addBooking', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            studio,
+            tanggal,
+            jam,
+            nama,
+            hp: '',
+            nik,
+            email: '',
+            kelas,
+            status: 'pending'
+          })
+        });
+
+        if (!response.ok) {
+          console.error('Failed to save booking:', response.status, response.statusText);
+          alert('Failed to save booking for ' + tanggal);
+          return false;
+        }
+
+        const result = await response.json();
+        if (result.error) {
+          console.error('Error saving booking:', result.error);
+          alert('Failed to save booking for ' + tanggal);
+          return false;
+        }
+      }
+
+      return true;
+    } catch (error) {
+      console.error('Error saving bookings:', error);
+      alert('Failed to save bookings to database');
+      return false;
+    }
+  }
+
+  async function isTimeSlotBooked(studio, tanggal, jam) {
+    try {
+      const response = await fetch(`/Avicenna/api.php?action=checkSlot&studio=${encodeURIComponent(studio)}&tanggal=${tanggal}&jam=${encodeURIComponent(jam)}`);
+      const data = await response.json();
+      
+      // Check if slot has pending booking that needs confirmation first
+      if (data.hasPending) {
+        showNotification('Slot is being processed', 'There is a pending booking for this slot. Please wait for confirmation or choose another time.', 'error');
+        return true; // Block the booking
+      }
+      
+      return data.booked;
+    } catch (error) {
+      console.error('Error checking slot:', error);
+      return false;
+    }
+  }
+
+  async function checkBan(nik) {
+    if (!nik) return { banned: false };
+    try {
+      const response = await fetch(`/Avicenna/api.php?action=checkBan&nik=${encodeURIComponent(nik)}`);
+      const data = await response.json();
+      return data;
+    } catch (error) {
+      console.error('Error checking ban:', error);
+      return { banned: false };
+    }
+  }
+
+  function formatTanggalDisplay(dateString) {
+    const date = new Date(dateString + 'T00:00:00');
+    const options = { weekday: 'long', day: 'numeric', month: 'long', year: 'numeric' };
+    return date.toLocaleDateString('en-US', options);
+  }
+
+  // Tampilkan notifikasi pop-up di layar untuk konflik booking
+  function showBookingConflictNotification(studio, tanggal, jam) {
+    let container = document.getElementById('notification');
+    if (!container) {
+      container = document.createElement('div');
+      container.id = 'notification';
+      container.className = 'notification-toast';
+      container.setAttribute('aria-live', 'polite');
+      container.hidden = true;
+      document.body.appendChild(container);
+    }
+
+    container.classList.remove('success');
+    container.innerHTML = '<div class="notif-content"><strong>❌ Slot already booked!</strong>' +
+      '<div>Studio ' + studio + ' on:<br>' + formatTanggalDisplay(tanggal) + '<br>Time: ' + jam + '</div>' +
+      '<button class="close-btn" onclick="hideNotification()">Close</button></div>';
+
+    container.hidden = false;
+    // Trigger show animation
+    requestAnimationFrame(() => container.classList.add('show'));
+
+    // Auto-hide after 6 seconds
+    if (container._timeout) clearTimeout(container._timeout);
+    container._timeout = setTimeout(() => hideNotification(), 6000);
+  }
+
+  function hideNotification() {
+    const container = document.getElementById('notification');
+    if (!container) return;
+    container.classList.remove('show');
+    container.classList.remove('success');
+    // wait for animation then hide
+    setTimeout(() => {
+      container.hidden = true;
+      container.innerHTML = '';
+    }, 250);
+  }
+
+  function showSaveSuccessNotification(message) {
+    let container = document.getElementById('notification');
+    if (!container) {
+      container = document.createElement('div');
+      container.id = 'notification';
+      container.className = 'notification-toast';
+      container.setAttribute('aria-live', 'polite');
+      container.hidden = true;
+      document.body.appendChild(container);
+    }
+
+    container.classList.add('success');
+    container.innerHTML = '<div class="notif-content"><strong>Success</strong>' +
+      '<div>' + message + '</div>' +
+      '<button class="close-btn" onclick="hideNotification()">Close</button></div>';
+
+    container.hidden = false;
+    requestAnimationFrame(() => container.classList.add('show'));
+
+    if (container._timeout) clearTimeout(container._timeout);
+    container._timeout = setTimeout(() => hideNotification(), 2200);
+  }
+
+  function goBack() {
+    window.location.href = 'index.html';
+  }
+
+  function viewLiveDisplay() {
+    window.location.href = 'user.html';
+  }
+</script>
+
+</body>
+</html>

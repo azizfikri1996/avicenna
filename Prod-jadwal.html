@@ -1,0 +1,847 @@
+<!DOCTYPE html>
+<html lang="en"> <!-- connected to My ALAZKA -->
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Choose Schedule</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&family=Playfair+Display:wght@700&display=swap" rel="stylesheet">
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+
+    body { 
+      font-family: 'Poppins', sans-serif;
+      background: linear-gradient(135deg, rgba(161, 177, 158, 0.9) 0%, rgba(192, 192, 192, 0.9) 100%), url('./image/bg.jpeg') center/cover fixed;
+      background-blend-mode: overlay;
+      min-height: 100vh;
+      padding: 30px 20px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .container {
+      max-width: 500px;
+      width: 100%;
+    }
+
+    .card {
+      background: white;
+      border-radius: 20px;
+      padding: 40px;
+      box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+      animation: slideUp 0.6s ease;
+    }
+
+    @keyframes slideUp {
+      from {
+        opacity: 0;
+        transform: translateY(30px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    .header {
+      text-align: center;
+      margin-bottom: 40px;
+    }
+
+    .logo {
+      width: 80px;
+      height: auto;
+      object-fit: contain;
+      margin-bottom: 15px;
+      padding: 12px;
+      background: linear-gradient(135deg, rgba(255, 255, 255, 0.4) 0%, rgba(255, 255, 255, 0.2) 100%);
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
+      border-radius: 16px;
+      box-shadow: 
+        0 8px 32px rgba(0, 0, 0, 0.15),
+        inset 0 1px 0 rgba(255, 255, 255, 0.5),
+        0 0 0 1px rgba(255, 255, 255, 0.2);
+      border: 1px solid rgba(255, 255, 255, 0.3);
+      animation: fadeIn 0.6s ease;
+    }
+
+    @keyframes fadeIn {
+      from {
+        opacity: 0;
+        transform: scale(0.8);
+      }
+      to {
+        opacity: 1;
+        transform: scale(1);
+      }
+    }
+
+    .header h1 {
+      font-family: 'Playfair Display', serif;
+      font-size: 36px;
+      color: #333;
+      margin-bottom: 10px;
+    }
+
+    .header p {
+      color: #666;
+      font-size: 14px;
+      font-weight: 300;
+    }
+
+    .form-group {
+      margin-bottom: 25px;
+    }
+
+    .form-group label {
+      display: block;
+      color: #333;
+      font-size: 14px;
+      font-weight: 600;
+      margin-bottom: 10px;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+
+    .studio-display {
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      color: white;
+      padding: 15px;
+      border-radius: 12px;
+      font-size: 18px;
+      font-weight: 700;
+      text-align: center;
+      margin-bottom: 5px;
+    }
+
+    input[type="date"],
+    select {
+      width: 100%;
+      padding: 14px;
+      border: 2px solid #e0e0e0;
+      border-radius: 12px;
+      font-family: 'Poppins', sans-serif;
+      font-size: 16px;
+      transition: all 0.3s ease;
+      background-color: #f8f8f8;
+    }
+
+    input[type="date"]:focus,
+    select:focus {
+      outline: none;
+      border-color: #667eea;
+      background-color: white;
+      box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+    }
+
+    input[type="date"]::placeholder {
+      color: #999;
+    }
+
+    select {
+      cursor: pointer;
+      appearance: none;
+      background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='6 9 12 15 18 9'%3e%3c/polyline%3e%3c/svg%3e");
+      background-repeat: no-repeat;
+      background-position: right 10px center;
+      background-size: 20px;
+      padding-right: 40px;
+    }
+
+    optgroup {
+      font-weight: bold;
+      font-size: 105px;
+      color: #f20000;
+    }
+
+    .button-group {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+      margin-top: 35px;
+    }
+
+    button {
+      padding: 14px 16px;
+      border: none;
+      border-radius: 12px;
+      font-family: 'Poppins', sans-serif;
+      font-size: 15px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.3s cubic-bezier(0.23, 1, 0.320, 1);
+      letter-spacing: 0.5px;
+      white-space: nowrap;
+      text-align: center;
+    }
+
+    .btn-next {
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      color: white;
+      box-shadow: 0 6px 25px rgba(102, 126, 234, 0.35);
+      grid-column: 1 / -1;
+    }
+
+    .btn-next:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 10px 35px rgba(102, 126, 234, 0.5);
+    }
+
+    .btn-back {
+      background: #f0f0f0;
+      color: #333;
+      border: 2px solid #e0e0e0;
+    }
+
+    .btn-back:hover {
+      background: #e0e0e0;
+      border-color: #d0d0d0;
+    }
+
+    button:active {
+      transform: translateY(-1px);
+    }
+
+    @media (max-width: 480px) {
+      button {
+        font-size: 14px;
+        padding: 12px 14px;
+      }
+      
+      .button-group {
+        gap: 10px;
+        margin-top: 30px;
+      }
+    }
+
+    .info-box {
+      background: #f0f7ff;
+      border-left: 4px solid #667eea;
+      padding: 15px;
+      border-radius: 8px;
+      margin-top: 30px;
+      font-size: 13px;
+      color: #555;
+      line-height: 1.6;
+    }
+    
+    .terms-container {
+      background: rgba(255, 255, 255, 0.6);
+      backdrop-filter: blur(10px);
+      border: 2px solid rgba(102, 126, 234, 0.3);
+      border-radius: 12px;
+      padding: 20px;
+      margin-top: 25px;
+      margin-bottom: 10px;
+    }
+    
+    .terms-box {
+      max-height: 150px;
+      overflow-y: auto;
+      background: rgba(255, 255, 255, 0.8);
+      padding: 15px;
+      border-radius: 8px;
+      margin-bottom: 15px;
+      font-size: 13px;
+      line-height: 1.6;
+      color: #333;
+      border: 1px solid #e0e0e0;
+    }
+    
+    .terms-box::-webkit-scrollbar {
+      width: 6px;
+    }
+    
+    .terms-box::-webkit-scrollbar-track {
+      background: #f1f1f1;
+      border-radius: 10px;
+    }
+    
+    .terms-box::-webkit-scrollbar-thumb {
+      background: #667eea;
+      border-radius: 10px;
+    }
+    
+    .terms-box h4 {
+      color: #667eea;
+      margin-bottom: 10px;
+      font-size: 14px;
+      font-weight: 700;
+    }
+    
+    .terms-box ul {
+      margin-left: 20px;
+      margin-top: 8px;
+    }
+    
+    .terms-box li {
+      margin-bottom: 6px;
+    }
+    
+    .terms-checkbox {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      cursor: pointer;
+      user-select: none;
+    }
+    
+    .terms-checkbox input[type="checkbox"] {
+      width: 20px;
+      height: 20px;
+      cursor: pointer;
+      accent-color: #667eea;
+    }
+    
+    .terms-checkbox label {
+      font-size: 14px;
+      color: #333;
+      font-weight: 500;
+      cursor: pointer;
+    }
+    
+    .btn-next:disabled {
+      background: #ccc;
+      color: #666;
+      cursor: not-allowed;
+      box-shadow: none;
+      opacity: 0.6;
+    }
+    
+    .btn-next:disabled:hover {
+      transform: none;
+      box-shadow: none;
+    }
+    /* Notification toast (centered) */
+    .notification-toast {
+      position: fixed;
+      top: 50%;
+      left: 50%;
+      right: auto;
+      z-index: 9999;
+      background: rgba(255,255,255,0.98);
+      border-left: 6px solid #e74c3c;
+      box-shadow: 0 12px 40px rgba(0,0,0,0.25);
+      padding: 16px 18px;
+      border-radius: 12px;
+      transform: translate(-50%, -60%);
+      opacity: 0;
+      transition: transform .22s ease, opacity .22s ease;
+      max-width: 90vw;
+      width: 360px;
+      font-size: 14px;
+      color: #222;
+      text-align: left;
+    }
+    .notification-toast.show {
+      transform: translate(-50%, -50%);
+      opacity: 1;
+    }
+    .notification-toast .notif-content strong { display: block; margin-bottom: 6px; }
+    .notification-toast .close-btn {
+      background: #e74c3c;
+      color: #fff;
+      border: none;
+      padding: 6px 10px;
+      border-radius: 6px;
+      cursor: pointer;
+      font-weight: 600;
+      margin-top: 8px;
+    }
+    .notification-toast.success {
+      border-left-color: #27ae60;
+    }
+    .notification-toast.success .close-btn {
+      background: #27ae60;
+    }
+  </style>
+</head>
+<body>
+
+<div class="container">
+  <div class="card">
+    <div class="header">
+      <img src="https://alazka.sch.id/Avicenna/image/Avicenna.jpeg" alt="Al Azhar Logo" class="logo">
+      <h1>Choose Schedule</h1>
+      <p>Select your preferred date and time</p>
+    </div>
+
+    <div class="form-group">
+      <label for="studio">Selected Studio</label>
+      <select id="studio" required>
+        <option value="">-- Select Studio --</option>
+        <option value="Studio 1">Studio 1 - Capacity 5 people (Recording Studio)</option>
+        <option value="Studio 2">Studio 2 - Capacity 6 people (Acoustic Guitar Studio)</option>
+        <option value="Studio 3">Studio 3 - Capacity 6 people (Drum Studio)</option>
+        <option value="Studio 4">Studio 4 - Capacity 6 people (Electric Guitar Studio)</option>
+        <option value="Studio 5">Studio 5 - Capacity 6 people (Piano Studio)</option>
+        <option value="Studio 6">Studio 6 - Capacity 10 people (Band Studio)</option>
+        <option value="Studio 7">Studio 7 - Capacity 10 people (Band Studio)</option>
+      </select>
+    </div>
+
+    <div class="form-group">
+      <label for="tanggalMulai">Start Date</label>
+      <input type="date" id="tanggalMulai" required>
+    </div>
+
+    <div class="form-group">
+      <label for="tanggalSelesai">End Date</label>
+      <input type="date" id="tanggalSelesai" required>
+    </div>
+
+    <div class="form-group">
+      <label for="namaPendaftar">Registrant Name</label> <!-- Add ID, blacklist 1 month by ID -->
+      <input type="text" id="namaPendaftar" placeholder="Enter your name" style="width:100%; padding:14px; border:2px solid #e0e0e0; border-radius:12px; font-size:16px;" required>
+    </div>
+
+    <div class="form-group">
+      <label for="nikPendaftar">ID Number (NIK)</label>
+      <input type="text" id="nikPendaftar" placeholder="Enter ID number" style="width:100%; padding:14px; border:2px solid #e0e0e0; border-radius:12px; font-size:16px;" required>
+    </div>
+
+    <div class="form-group">
+      <label for="kelasPendaftaran">Class Registration</label>
+      <select id="kelasPendaftaran" required style="width:100%; padding:14px; border:2px solid #e0e0e0; border-radius:12px; font-size:16px;">
+        <option value="">-- Select Class --</option>
+        
+        <optgroup label="SD (Elementary School)">
+          <option value="SD 1A">1A</option>
+          <option value="SD 1B">1B</option>
+          <option value="SD 1C">1C</option>
+          <option value="SD 1D">1D</option>
+          <option value="SD 2A">2A</option>
+          <option value="SD 2B">2B</option>
+          <option value="SD 2C">2C</option>
+          <option value="SD 2D">2D</option>
+          <option value="SD 3A">3A</option>
+          <option value="SD 3B">3B</option>
+          <option value="SD 3C">3C</option>
+          <option value="SD 3D">3D</option>
+          <option value="SD 3E">3E</option>
+          <option value="SD 4A">4A</option>
+          <option value="SD 4B">4B</option>
+          <option value="SD 4C">4C</option>
+          <option value="SD 4D">4D</option>
+          <option value="SD 5A">5A</option>
+          <option value="SD 5B">5B</option>
+          <option value="SD 5C">5C</option>
+          <option value="SD 5D">5D</option>
+          <option value="SD 6A">6A</option>
+          <option value="SD 6B">6B</option>
+          <option value="SD 6C">6C</option>
+          <option value="SD 6D">6D</option>
+        </optgroup>
+        
+        <optgroup label="SMP (Junior High School)">
+          <option value="SMP 7.1">7.1</option>
+          <option value="SMP 7.2">7.2</option>
+          <option value="SMP 7.3">7.3</option>
+          <option value="SMP 7.4">7.4</option>
+          <option value="SMP 8.1">8.1</option>
+          <option value="SMP 8.2">8.2</option>
+          <option value="SMP 8.3">8.3</option>
+          <option value="SMP 9.1">9.1</option>
+          <option value="SMP 9.2">9.2</option>
+          <option value="SMP 9.3">9.3</option>
+          <option value="SMP 9.4">9.4</option>
+          <option value="SMP SKS 10">SKS 10</option>
+        </optgroup>
+        
+        <optgroup label="SMA (Senior High School)">
+          <option value="SMA 10A">10A</option>
+          <option value="SMA 10B">10B</option>
+          <option value="SMA 10C">10C</option>
+          <option value="SMA 10D">10D</option>
+          <option value="SMA 10E">10E</option>
+          <option value="SMA 11A">11A</option>
+          <option value="SMA 11B">11B</option>
+          <option value="SMA 11C">11C</option>
+          <option value="SMA 11D">11D</option>
+          <option value="SMA 11E">11E</option>
+          <option value="SMA 11F">11F</option>
+          <option value="SMA 12A">12A</option>
+          <option value="SMA 12B">12B</option>
+          <option value="SMA 12C">12C</option>
+          <option value="SMA 12D">12D</option>
+          <option value="SMA 12E">12E</option>
+          <option value="SMA SKS 6">SKS 6</option>
+        </optgroup>
+        
+        <optgroup label="Other">
+          <option value="Umum">General / Public</option>
+        </optgroup>
+      </select>
+    </div>
+
+    <div class="form-group">
+      <label for="jam">Session Time</label>
+      <select id="jam" required>
+        <option value="">-- Select Time --</option>
+        <option value="09:00-10:00">09:00 - 10:00</option>
+        <option value="10:00-11:00">10:00 - 11:00</option>
+        <option value="11:00-12:00">11:00 - 12:00</option>
+        <option value="12:00-13:00">12:00 - 13:00</option>
+        <option value="13:00-14:00">13:00 - 14:00</option>
+        <option value="14:00-15:00">14:00 - 15:00</option>
+        <option value="15:00-16:00">15:00 - 16:00</option>
+        <option value="16:00-17:00">16:00 - 17:00</option>
+        <option value="17:00-18:00">17:00 - 18:00</option>
+      </select>
+    </div>
+
+    <div class="terms-container">
+      <div class="terms-box">
+        <h4>📋 Studio Rental Terms & Conditions</h4>
+        <ul>
+          <li>Participants must maintain studio cleanliness and tidiness</li>
+          <li>Food and drinks are prohibited inside the studio</li>
+          <li>Responsible for any equipment damage caused by negligence</li>
+          <li>Please arrive on time according to your booking schedule</li>
+          <li>Booking cancellations must be made at least 24 hours before the scheduled time</li>
+          <li>3 sudden cancellations will result in a 1-month account suspension</li>
+          <li>The studio is not responsible for lost personal belongings</li>
+          <li>Studio use is only for music practice and learning purposes</li>
+          <li>All electronic equipment must be turned off after studio use</li>
+          <li>Maximum participant capacity as specified for each studio</li>
+        </ul>
+      </div>
+      <div class="terms-checkbox">
+        <input type="checkbox" id="termsCheckbox" onchange="toggleNextButton()">
+        <label for="termsCheckbox">I have read and agree to the studio rental terms & conditions</label>
+      </div>
+    </div>
+
+    <div class="button-group">
+      <button class="btn-back" onclick="goBack()">← Back</button>
+      <button class="btn-back" onclick="viewLiveDisplay()" style="background: linear-gradient(135deg, #2ecc71 0%, #27ae60 100%); color: white; border: none;">📺 View Live Display</button>
+      <button class="btn-next" id="nextButton" onclick="next()" disabled>Next →</button>
+    </div>
+
+    <div class="info-box">
+      ℹ️ Make sure the selected date and time fit your needs. You can change them later if necessary.
+    </div>
+  </div>
+</div>
+
+<script>
+  // Set studio dari sessionStorage jika ada (temporary data)
+  const storedStudio = sessionStorage.getItem('studio');
+  if (storedStudio) {
+    document.getElementById('studio').value = storedStudio;
+  }
+  const storedNama = sessionStorage.getItem('nama');
+  if (storedNama && document.getElementById('namaPendaftar')) {
+    document.getElementById('namaPendaftar').value = storedNama;
+  }
+  const storedNik = sessionStorage.getItem('nik');
+  if (storedNik && document.getElementById('nikPendaftar')) {
+    document.getElementById('nikPendaftar').value = storedNik;
+  }
+  const storedKelas = sessionStorage.getItem('kelas');
+  if (storedKelas && document.getElementById('kelasPendaftaran')) {
+    document.getElementById('kelasPendaftaran').value = storedKelas;
+  }
+
+  // Set minimum date to today for both start and end date
+  const today = new Date().toISOString().split('T')[0];
+  
+  document.getElementById('tanggalMulai').min = today;
+  document.getElementById('tanggalSelesai').min = today;
+  
+  // Toggle Next button based on terms checkbox
+  function toggleNextButton() {
+    const checkbox = document.getElementById('termsCheckbox');
+    const nextButton = document.getElementById('nextButton');
+    nextButton.disabled = !checkbox.checked;
+  }
+  
+  // Update end date min when start date changes
+  document.getElementById('tanggalMulai').addEventListener('change', function() {
+    document.getElementById('tanggalSelesai').min = this.value;
+    if (document.getElementById('tanggalSelesai').value && document.getElementById('tanggalSelesai').value < this.value) {
+      document.getElementById('tanggalSelesai').value = this.value;
+    }
+  });
+
+  async function next() {
+    const studio = document.getElementById('studio').value;
+    const tanggalMulai = document.getElementById('tanggalMulai').value;
+    const tanggalSelesai = document.getElementById('tanggalSelesai').value;
+    const jam = document.getElementById('jam').value;
+    const nama = document.getElementById('namaPendaftar') ? document.getElementById('namaPendaftar').value.trim() : '';
+    const nik = document.getElementById('nikPendaftar') ? document.getElementById('nikPendaftar').value.trim() : '';
+    const kelas = document.getElementById('kelasPendaftaran') ? document.getElementById('kelasPendaftaran').value : '';
+    const termsChecked = document.getElementById('termsCheckbox').checked;
+
+    if (!termsChecked) {
+      alert('Please read and agree to the terms & conditions');
+      return;
+    }
+
+    if (!studio || !tanggalMulai || !tanggalSelesai || !jam) {
+      alert('Please select studio, start date, end date, and time first');
+      return;
+    }
+    
+    if (tanggalMulai > tanggalSelesai) {
+      alert('End date must be after or equal to start date');
+      return;
+    }
+
+    if (!nama) {
+      alert('Please enter the registrant name');
+      return;
+    }
+
+    if (!nik) {
+      alert('Please enter the ID number');
+      return;
+    }
+
+    if (!kelas) {
+      alert('Please select class registration');
+      return;
+    }
+
+    const banStatus = await checkBan(nik);
+    if (banStatus.banned) {
+      alert(`This ID is banned until ${formatTanggalDisplay(banStatus.until)} due to 3 cancellations without notice.`);
+      return;
+    }
+
+    // Cek apakah ada booking yang conflict untuk setiap tanggal dalam range
+    const startDate = new Date(tanggalMulai + 'T00:00:00');
+    const endDate = new Date(tanggalSelesai + 'T00:00:00');
+    
+    // Generate all dates in range
+    const dates = [];
+    for (let d = new Date(startDate); d <= endDate; d.setDate(d.getDate() + 1)) {
+      // Use local date format to prevent timezone shift
+      const year = d.getFullYear();
+      const month = String(d.getMonth() + 1).padStart(2, '0');
+      const day = String(d.getDate()).padStart(2, '0');
+      dates.push(`${year}-${month}-${day}`);
+    }
+    
+    // Check conflicts for all dates
+    for (const date of dates) {
+      const isBooked = await isTimeSlotBooked(studio, date, jam);
+      if (isBooked) {
+        showBookingConflictNotification(studio, date, jam);
+        return;
+      }
+    }
+
+    const saved = await saveBookingsDirect({
+      studio,
+      tanggalMulai,
+      tanggalSelesai,
+      jam,
+      nama,
+      nik,
+      kelas
+    });
+
+    if (!saved) {
+      return;
+    }
+
+    showSaveSuccessNotification('✅ Booking berhasil disimpan. Mengalihkan...');
+    const params = new URLSearchParams({
+      studio,
+      tanggalMulai,
+      tanggalSelesai,
+      jam,
+      nama,
+      nik,
+      kelas
+    });
+
+    setTimeout(() => {
+      window.location.href = `confirm.html?${params.toString()}`;
+    }, 900);
+  }
+
+
+
+  async function saveBookingsDirect(payload) {
+    const { studio, tanggalMulai, tanggalSelesai, jam, nama, nik, kelas } = payload;
+    const startDate = new Date(tanggalMulai + 'T00:00:00');
+    const endDate = new Date(tanggalSelesai + 'T00:00:00');
+
+    if (isNaN(startDate) || isNaN(endDate)) {
+      alert('Invalid date range');
+      return false;
+    }
+
+    const dates = [];
+    for (let d = new Date(startDate); d <= endDate; d.setDate(d.getDate() + 1)) {
+      // Use local date format to prevent timezone shift
+      const year = d.getFullYear();
+      const month = String(d.getMonth() + 1).padStart(2, '0');
+      const day = String(d.getDate()).padStart(2, '0');
+      dates.push(`${year}-${month}-${day}`);
+    }
+
+    if (!dates.length) {
+      alert('No dates to save');
+      return false;
+    }
+
+    try {
+      for (const tanggal of dates) {
+        const response = await fetch('/Avicenna/api.php?action=addBooking', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            studio,
+            tanggal,
+            jam,
+            nama,
+            hp: '',
+            nik,
+            email: '',
+            kelas,
+            status: 'pending'
+          })
+        });
+
+        if (!response.ok) {
+          console.error('Failed to save booking:', response.status, response.statusText);
+          alert('Failed to save booking for ' + tanggal);
+          return false;
+        }
+
+        const result = await response.json();
+        if (result.error) {
+          console.error('Error saving booking:', result.error);
+          alert('Failed to save booking for ' + tanggal);
+          return false;
+        }
+      }
+
+      return true;
+    } catch (error) {
+      console.error('Error saving bookings:', error);
+      alert('Failed to save bookings to database');
+      return false;
+    }
+  }
+
+  async function isTimeSlotBooked(studio, tanggal, jam) {
+    try {
+      const response = await fetch(`/Avicenna/api.php?action=checkSlot&studio=${encodeURIComponent(studio)}&tanggal=${tanggal}&jam=${encodeURIComponent(jam)}`);
+      const data = await response.json();
+      
+      // Check if slot has pending booking that needs confirmation first
+      if (data.hasPending) {
+        showNotification('Slot is being processed', 'There is a pending booking for this slot. Please wait for confirmation or choose another time.', 'error');
+        return true; // Block the booking
+      }
+      
+      return data.booked;
+    } catch (error) {
+      console.error('Error checking slot:', error);
+      return false;
+    }
+  }
+
+  async function checkBan(nik) {
+    if (!nik) return { banned: false };
+    try {
+      const response = await fetch(`/Avicenna/api.php?action=checkBan&nik=${encodeURIComponent(nik)}`);
+      const data = await response.json();
+      return data;
+    } catch (error) {
+      console.error('Error checking ban:', error);
+      return { banned: false };
+    }
+  }
+
+  function formatTanggalDisplay(dateString) {
+    const date = new Date(dateString + 'T00:00:00');
+    const options = { weekday: 'long', day: 'numeric', month: 'long', year: 'numeric' };
+    return date.toLocaleDateString('en-US', options);
+  }
+
+  // Tampilkan notifikasi pop-up di layar untuk konflik booking
+  function showBookingConflictNotification(studio, tanggal, jam) {
+    let container = document.getElementById('notification');
+    if (!container) {
+      container = document.createElement('div');
+      container.id = 'notification';
+      container.className = 'notification-toast';
+      container.setAttribute('aria-live', 'polite');
+      container.hidden = true;
+      document.body.appendChild(container);
+    }
+
+    container.classList.remove('success');
+    container.innerHTML = '<div class="notif-content"><strong>❌ Slot already booked!</strong>' +
+      '<div>Studio ' + studio + ' on:<br>' + formatTanggalDisplay(tanggal) + '<br>Time: ' + jam + '</div>' +
+      '<button class="close-btn" onclick="hideNotification()">Close</button></div>';
+
+    container.hidden = false;
+    // Trigger show animation
+    requestAnimationFrame(() => container.classList.add('show'));
+
+    // Auto-hide after 6 seconds
+    if (container._timeout) clearTimeout(container._timeout);
+    container._timeout = setTimeout(() => hideNotification(), 6000);
+  }
+
+  function hideNotification() {
+    const container = document.getElementById('notification');
+    if (!container) return;
+    container.classList.remove('show');
+    container.classList.remove('success');
+    // wait for animation then hide
+    setTimeout(() => {
+      container.hidden = true;
+      container.innerHTML = '';
+    }, 250);
+  }
+
+  function showSaveSuccessNotification(message) {
+    let container = document.getElementById('notification');
+    if (!container) {
+      container = document.createElement('div');
+      container.id = 'notification';
+      container.className = 'notification-toast';
+      container.setAttribute('aria-live', 'polite');
+      container.hidden = true;
+      document.body.appendChild(container);
+    }
+
+    container.classList.add('success');
+    container.innerHTML = '<div class="notif-content"><strong>Success</strong>' +
+      '<div>' + message + '</div>' +
+      '<button class="close-btn" onclick="hideNotification()">Close</button></div>';
+
+    container.hidden = false;
+    requestAnimationFrame(() => container.classList.add('show'));
+
+    if (container._timeout) clearTimeout(container._timeout);
+    container._timeout = setTimeout(() => hideNotification(), 2200);
+  }
+
+  function goBack() {
+    window.location.href = 'index.html';
+  }
+
+  function viewLiveDisplay() {
+    window.location.href = 'user.html';
+  }
+</script>
+
+</body>
+</html>
